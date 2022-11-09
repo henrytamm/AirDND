@@ -12,10 +12,15 @@ module.exports = {
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Users",
+          key: "id"
+        }
       },
       address: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       city: {
         type: Sequelize.STRING,
