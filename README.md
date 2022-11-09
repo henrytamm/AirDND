@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-<img width="953" alt="AirBnB updated schema" src="https://user-images.githubusercontent.com/102117347/198186216-10092196-c65e-41f5-8d36-975b00832fcf.png">
+<img width="1064" alt="Screen Shot 2022-11-08 at 4 41 05 PM" src="https://user-images.githubusercontent.com/102117347/200707918-45ab8383-8f17-4f21-8a48-b74f2c447bf7.png">
+
 
 
 ## API Documentation
