@@ -12,10 +12,18 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Users",
+          key: "id"
+        }
       },
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Spots",
+          key: "id"
+        }
       },
       review: {
         type: Sequelize.STRING,
