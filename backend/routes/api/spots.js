@@ -41,4 +41,27 @@ router.post('/', requireAuth, async (req, res, next) => {
     res.json(newSpot)
 })
 
+//add an image to a spot based on spotid (imageableId and imageableType? had to change postman because i don't have a previewImage?)
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+    const { spotId } = req.params;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        return res.status(404).json({
+            message: "Could not find spot",
+            statusCode: 404,
+        })
+    }
+
+    const newImage = await SpotImage.create({
+        spotId,
+        userId,
+        url: req.body.url,
+        preview: req.body.preview
+    });
+    const { id, url, preview } = newImage;
+    res.json({newImage})
+})
+
 module.exports = router;
