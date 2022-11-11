@@ -15,9 +15,19 @@ router.get('/', async (req, res) => {
     let spots = await Spot.findAll({
     });
 
-    res.json(spots)
+    return res.json(spots)
 })
 
+
+//get details of a spot from an id
+router.get('/:spotId', async (req, res) => {
+    const id = req.params.spotId;
+    const currentSpot = await Spot.findByPk(id, {
+
+    });
+
+    return res.json(currentSpot)
+})
 
 //get all spots owned from curr user
 router.get('/current', requireAuth, async (req, res) => {
@@ -33,7 +43,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 //create a spot
-router.post('/', requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, async (req, res) => {
     const { id } = req.user
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -51,7 +61,7 @@ router.post('/', requireAuth, async (req, res, next) => {
         price
     });
 
-    res.json(newSpot)
+    return res.json(newSpot)
 })
 
 //add an image to a spot based on spotid (imageableId and imageableType? had to change postman because i don't have a previewImage?)
@@ -74,7 +84,30 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         preview: req.body.preview
     });
     const { id, url, preview } = newImage;
-    res.json({newImage})
+    return res.json({newImage})
 })
+
+
+//edit a spot
+router.put('/:spotId', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId;
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    const spot = await Spot.findByPk(spotId, {
+
+    });
+
+    if (!spot) {
+        return res.status(404).json({
+                "message": "Spot couldn't be found",
+                "statusCode": 404
+        })
+    }
+
+    spot.update({ address, city, state, country, lat, lng, name, description, price })
+
+    return res.json(spot)
+});
+
 
 module.exports = router;
