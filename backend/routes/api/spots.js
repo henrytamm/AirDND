@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { Spot, User, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
+const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize')
@@ -19,16 +19,6 @@ router.get('/', async (req, res) => {
 })
 
 
-//get details of a spot from an id
-router.get('/:spotId', async (req, res) => {
-    const id = req.params.spotId;
-    const currentSpot = await Spot.findByPk(id, {
-
-    });
-
-    return res.json(currentSpot)
-})
-
 //get all spots owned from curr user
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req;
@@ -40,6 +30,40 @@ router.get('/current', requireAuth, async (req, res) => {
     });
     return res.json(currentSpot)
 });
+
+//get details of a spot from an id
+router.get('/:spotId', async (req, res) => {
+    const id = req.params.spotId;
+    const currentSpot = await Spot.findByPk(id, {
+        attributes: {
+            include: [
+                [
+                sequelize.fn('COUNT', sequelize.col('Reviews.review')),
+                'numReviews'
+                ],
+                [ 
+                sequelize.fn('AVG', sequelize.col('Reviews.stars')),
+                'avgStarRating'
+                ]
+            ],
+        },
+        include: [
+            { model: SpotImage, attributes: ['id', 'url', 'preview']},
+            { model: Review, attributes: []},
+            { model: User, as: "Owner", attributes: ['id', 'firstName', 'lastName']}
+        ]
+    });
+    if (!currentSpot) {
+        return res.status(404).json({
+        "message": "Spot couldn't be found",
+        "statusCode": 404
+        });
+    }
+
+
+    return res.json(currentSpot)
+})
+
 
 
 //create a spot
@@ -66,7 +90,6 @@ router.post('/', requireAuth, async (req, res) => {
 
 //add an image to a spot based on spotid (imageableId and imageableType? had to change postman because i don't have a previewImage?)
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
-    const userId = req.user.id;
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
 
@@ -79,11 +102,9 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     const newImage = await SpotImage.create({
         spotId,
-        userId,
         url: req.body.url,
         preview: req.body.preview
     });
-    const { id, url, preview } = newImage;
     return res.json({newImage})
 })
 
@@ -109,5 +130,21 @@ router.put('/:spotId', requireAuth, async (req, res) => {
     return res.json(spot)
 });
 
+//delate a spot
+router.delete('/:spotId', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId;
+    const doomedSpot = await Spot.findByPk(spotId)
 
+    if (!doomedSpot){
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+    await doomedSpot.destroy();
+    res.json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+    })
+})
 module.exports = router;
