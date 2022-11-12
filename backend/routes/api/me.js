@@ -5,7 +5,7 @@ const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = requi
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize')
-
+const { DATE } = require('sequelize')
 
 const router = express.Router();
 
@@ -62,5 +62,23 @@ router.get('/reviews', requireAuth, async (req, res) => {
     });
     return res.json(reviews)
 })
+
+//get all bookings from current user
+router.get('/bookings', requireAuth, async (req, res) => {
+    const { user } = req;
+    const currentBookings = await Booking.findAll({
+        where: {
+            userId: user.id
+        },
+        include: [
+            { model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'], 
+        include: { model: SpotImage }
+            }
+        ]
+    });
+
+    return res.json(currentBookings)
+})
+
 
 module.exports = router;
