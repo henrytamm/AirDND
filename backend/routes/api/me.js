@@ -43,4 +43,17 @@ router.get('/spots', async (req, res) => {
     return res.json(spots)
 })
 
+
+//get all reviews of the current user
+router.get('/reviews', requireAuth, async (req, res) => {
+    const userId = req.user.id;
+
+    const reviews = await Review.findAll({
+        where: {
+            userId: userId
+        }
+    });
+    return res.json(reviews)
+})
+
 module.exports = router;
