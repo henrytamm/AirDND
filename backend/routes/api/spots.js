@@ -9,14 +9,54 @@ const { Op } = require('sequelize')
 
 const router = express.Router();
 
+const validateSpot = [
+    check('address')
+    .exists({ checkFalsy: true })
+    .withMessage('Street address is required'),
+    check('city')
+    .exists({ checkFalsy: true })
+    .withMessage('City is required'),
+    check('state')
+    .exists({ checkFalsy: true })
+    .withMessage('State is required'),
+    check('country')
+    .exists({ checkFalsy: true })
+    .withMessage('Country is required'),
+    check('lat')
+    .exists({ checkFalsy: true })
+    .isNumeric({ checkFalsy: true })
+    .withMessage('Latitude is not valid'),
+  check('lng')
+    .exists({ checkFalsy: true })
+    .isNumeric({ checkFalsy: true })
+    .withMessage('Longitude is not valid'),
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ max: 51 })
+    .withMessage("Name must be less than 50 characters"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .isInt({ checkFalsy: true })
+    .withMessage("Price per day is required"),
 
-//get all spots
-// router.get('/', async (req, res) => {
-//     let spots = await Spot.findAll({
-//     });
+  handleValidationErrors,
+];
 
-//     return res.json(spots)
-// })
+const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .withMessage("Review text is required"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+
+  handleValidationErrors,
+];
+
 
 
 //get all spots owned from curr user
@@ -79,7 +119,7 @@ router.get('/:spotId', async (req, res) => {
 
 
 //create a spot
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateSpot, async (req, res) => {
     const { id } = req.user
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -123,7 +163,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 
 //edit a spot
-router.put('/:spotId', requireAuth, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
     const spotId = req.params.spotId;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -142,6 +182,51 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     return res.json(spot)
 });
+
+
+
+//create a review for a spot based on the spot's id
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
+    const { stars, review } = req.body;
+
+    const spot = await Spot.findOne({
+        where : {
+            id: spotId
+        }
+     })
+
+    if (!spot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+         })
+    }
+
+    const dupeReview = await Review.findOne({
+        where: {
+            userId, spotId
+        }
+    })
+
+    if(dupeReview) {
+        return res.status(403).json({
+            "message": "User already has a review for this spot",
+            "statusCode": 403
+        })
+    }
+
+    const newReview = await Review.create({
+        userId,
+        spotId: spotId,
+        stars,
+        review
+    })
+    return res.json(newReview)
+})
+
+
 
 //delate a spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
