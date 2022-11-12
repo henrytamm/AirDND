@@ -11,12 +11,12 @@ const router = express.Router();
 
 
 //get all spots
-router.get('/', async (req, res) => {
-    let spots = await Spot.findAll({
-    });
+// router.get('/', async (req, res) => {
+//     let spots = await Spot.findAll({
+//     });
 
-    return res.json(spots)
-})
+//     return res.json(spots)
+// })
 
 
 //get all spots owned from curr user
@@ -26,8 +26,19 @@ router.get('/current', requireAuth, async (req, res) => {
     const currentSpot = await Spot.findAll({
         where: {
             ownerId: user.id
-        }
+        },
+        attributes : {
+            include: [
+                    [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
+                    [sequelize.col('SpotImages.url'), 'previewImage']
+            ]
+        },
+        include: [
+            { model: SpotImage, attributes: []},
+            { model: Review, attributes: []}
+        ]
     });
+    
     return res.json(currentSpot)
 });
 
@@ -53,13 +64,14 @@ router.get('/:spotId', async (req, res) => {
             { model: User, as: "Owner", attributes: ['id', 'firstName', 'lastName']}
         ]
     });
-    if (!currentSpot) {
-        return res.status(404).json({
-        "message": "Spot couldn't be found",
-        "statusCode": 404
-        });
-    }
 
+    const errorSpot = await Spot.findByPk(id);
+    if(!errorSpot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
 
     return res.json(currentSpot)
 })
@@ -89,7 +101,7 @@ router.post('/', requireAuth, async (req, res) => {
 })
 
 //add an image to a spot based on spotid (imageableId and imageableType? had to change postman because i don't have a previewImage?)
-router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
 
@@ -105,7 +117,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         url: req.body.url,
         preview: req.body.preview
     });
-    return res.json({newImage})
+    const { id, url, preview } = newImage
+    return res.json({id, url, preview})
 })
 
 
