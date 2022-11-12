@@ -227,6 +227,36 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 })
 
 
+//get all reviews by spot id
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params;
+
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        }
+    })
+
+    if(!spot) {
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+    const reviews = await Review.findAll({
+        where: {
+            spotId 
+        },
+        include: [
+            { model: User, attributes: ['id', 'firstName', 'lastName'] },
+            { model: ReviewImage, attributes: ['id', 'url']}
+        ]
+    });
+
+    res.json(reviews)
+})
+
 
 //delate a spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
