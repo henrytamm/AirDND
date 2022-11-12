@@ -4,7 +4,8 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const user = require('../../db/models/user');
 
 
 const router = express.Router();
@@ -255,7 +256,71 @@ router.get('/:spotId/reviews', async (req, res) => {
     });
 
     res.json(reviews)
+});
+
+
+//create booking from spot based on spotid
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+    const id = req.params.spotId;
+    const { startDate, endDate } = req.body;
+    const { user } = req;
+    const spotId = req.params.spotId
+
+    const spot = await Spot.findByPk(id, {
+        include: [
+            { model: Booking }
+        ]
+    });
+    if (!spot) {
+        return res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404,
+        })
+    }
+
+    if (user.id === spot.ownerId) {
+        return res.status(403).json({
+            message: "Forbidden",
+            statusCode: 403
+        })
+    }
+
+    const overlappingDates = await Booking.findAll({
+        where: {
+            spotId: id
+        }
+    });
+    if (overlappingDates.length > 0 || overlappingDates.startDate === startDate){
+        return res.status(403).json({
+            "message": "Sorry, this spot is already booked for the specified dates",
+            "statusCode": 403,
+            "errors": {
+                "startDate": "Start date conflicts with an existing booking",
+                "endDate": "End date conflicts with an existing booking"
+            }
+        })
+    }
+    if (endDate < startDate) {
+        return res.status(400).json({
+            message: "Validation error",
+            statusCode: 400,
+            errors: {
+                endDate: "endDate cannot be on or before startDate"
+            }
+        })
+
+    } else {
+
+    const newBooking = await Booking.create({
+        spotId: spotId,
+        userId: user.id,
+        startDate,
+        endDate
+    });
+    return res.json(newBooking)
+    }
 })
+
 
 
 //delate a spot
