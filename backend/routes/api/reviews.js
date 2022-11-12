@@ -9,6 +9,18 @@ const { Op } = require('sequelize')
 
 const router = express.Router();
 
+const validateReview = [
+    check("review")
+      .exists({ checkFalsy: true })
+      .withMessage("Review text is required"),
+    check("stars")
+      .exists({ checkFalsy: true })
+      .isInt({ min: 1, max: 5 })
+      .withMessage("Stars must be an integer from 1 to 5"),
+  
+    handleValidationErrors,
+  ];
+
 //add image to review based on review id
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const userId = req.user.id;
@@ -36,6 +48,27 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     });
     const { id, url } = newImage
     return res.json({ id, url })
+})
+
+//edit review
+router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
+    const reviewId = req.params.reviewId;
+    const { review, stars } = req.body;
+
+    const newReview = await Review.findByPk(reviewId);
+
+    if (!newReview) {
+        return res.status(404).json({
+            "message": "Review couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+    newReview.update({
+        review,
+        stars
+    });
+    return res.json(newReview)
 })
 
 module.exports = router;
