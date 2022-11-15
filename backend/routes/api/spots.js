@@ -287,10 +287,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     const overlappingDates = await Booking.findAll({
         where: {
-            spotId: id
-        }
+            spotId: id,
+        },
     });
-    if (overlappingDates.length > 0 || overlappingDates.startDate === startDate){
+
+    if (overlappingDates.length > 0 || overlappingDates.startDate >= startDate){
         return res.status(403).json({
             "message": "Sorry, this spot is already booked for the specified dates",
             "statusCode": 403,
@@ -321,7 +322,42 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
+//get all bookings from spot id
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
 
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+        return res.status(404).json({
+            message: "Spot coulnd't be found",
+            statusCode: 404,
+        });
+    }
+    const bookings = await Booking.findAll({
+        where : {
+            spotId: spotId
+        },
+        include: [
+            { model: User, attributes: ["id", "firstName", "lastName"] },
+        ]
+    });
+    
+    const nonOwnerBookings = await Booking.findAll({
+        where : {
+            spotId: spotId
+        }
+    })
+
+    if (userId === spot.ownerId) {
+    return res.json(bookings)
+    } else {
+        if (userId !== spot.ownerId) {
+            return res.json(nonOwnerBookings)
+        }
+    }
+
+})
 
 //delate a spot
 router.delete('/:spotId', requireAuth, async (req, res) => {

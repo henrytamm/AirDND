@@ -72,12 +72,12 @@ router.get('/bookings', requireAuth, async (req, res) => {
         },
         include: [
             { model: Spot, attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'], 
-        include: { model: SpotImage }
+        include: { model: SpotImage, attributes: ['url'] }
             }
         ]
     });
 
-    return res.json(currentBookings)
+    return res.json({Bookings: currentBookings})
 })
 
 
