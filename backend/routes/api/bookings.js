@@ -11,7 +11,7 @@ const user = require('../../db/models/user');
 
 const router = express.Router();
 
-
+//edit a booking
 router.put('/:bookingId', requireAuth, async (req, res) => {
     const id = req.params.bookingId;
     const userId = req.user.id;
@@ -26,6 +26,28 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             { model: Spot, attributes: ['ownerId'] }
         ]
     });
+
+    const overlappingDates = await Booking.findAll({
+        where: {
+            spotId : booking.spotId,
+            [Op.or]: [
+                { startDate: {[Op.between]: [startDate, endDate] }},
+                { endDate: {[Op.between]: [startDate, endDate] }}
+            ]
+        },
+    });
+
+    if (overlappingDates.length > 0 || overlappingDates.startDate === startDate){
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                "statusCode": 403,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking",
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        }
+            
 
     if(!booking){
         return res.status(404).json({
@@ -49,28 +71,6 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             message: "Past bookings can't be modified",
             statusCode: 403
         })
-    };
-
-    const overlappingDates = await Booking.findAll({
-        where: {
-            spotId: id,
-            [Op.or]: [
-                { startDate: {[Op.between]: [startDate, endDate] }},
-                { endDate: {[Op.between]: [startDate, endDate] }}
-            ]
-        },
-    });
-
-    if (overlappingDates.length > 0 || overlappingDates.startDate === startDate){
-        // if (overlappingDates){
-            return res.status(403).json({
-                "message": "Sorry, this spot is already booked for the specified dates",
-                "statusCode": 403,
-                "errors": {
-                    "startDate": "Start date conflicts with an existing booking",
-                    "endDate": "End date conflicts with an existing booking"
-                }
-            })
    
     } else {
        booking.update({
@@ -82,6 +82,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 
 })
 
+//delete a booking
 router.delete('/:bookingId', requireAuth, async (req, res) => {
     const id = req.params.bookingId;
     const { user } = req;

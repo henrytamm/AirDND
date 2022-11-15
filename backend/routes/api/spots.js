@@ -59,6 +59,31 @@ const validateReview = [
 ];
 
 
+//delate a spot
+router.delete('/:spotId', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
+    const doomedSpot = await Spot.findByPk(spotId)
+
+    if (!doomedSpot){
+        return res.status(404).json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+    if(userId === doomedSpot.ownerId){
+        await doomedSpot.destroy();
+        return res.json({
+            "message": "Successfully deleted",
+            "statusCode": 200
+        })
+    } else {
+        return res.status(403).json({
+            message: "Forbidden",
+            statusCode: 403,
+        })
+    }
+})
 
 //get all spots owned from curr user
 router.get('/current', requireAuth, async (req, res) => {
@@ -362,23 +387,5 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         }
     }
 
-})
-
-//delate a spot
-router.delete('/:spotId', requireAuth, async (req, res) => {
-    const spotId = req.params.spotId;
-    const doomedSpot = await Spot.findByPk(spotId)
-
-    if (!doomedSpot){
-        return res.status(404).json({
-            "message": "Spot couldn't be found",
-            "statusCode": 404
-        })
-    }
-    await doomedSpot.destroy();
-    res.json({
-        "message": "Successfully deleted",
-        "statusCode": 200
-    })
 })
 module.exports = router;
