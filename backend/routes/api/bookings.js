@@ -27,7 +27,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         ]
     });
 
-    const overlappingDates = await Booking.findAll({
+    const overlappingDates = await Booking.findOne({
         where: {
             spotId : booking.spotId,
             [Op.or]: [
@@ -37,7 +37,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         },
     });
 
-    if (overlappingDates.length > 0 || overlappingDates.startDate === startDate){
+    if (overlappingDates){
             return res.status(403).json({
                 "message": "Sorry, this spot is already booked for the specified dates",
                 "statusCode": 403,
