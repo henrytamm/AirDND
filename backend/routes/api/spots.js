@@ -99,10 +99,11 @@ router.get('/current', requireAuth, async (req, res) => {
                     [sequelize.col('SpotImages.url'), 'previewImage']
             ]
         },
+        group: ['Spot.id', 'SpotImages.url'],
         include: [
             { model: SpotImage, attributes: []},
             { model: Review, attributes: []}
-        ]
+        ],
     });
     
     return res.json(currentSpot)
@@ -252,6 +253,40 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     return res.json(newReview)
 })
 
+//get all bookings from spot id
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+    const spotId = req.params.spotId;
+    const userId = req.user.id;
+    const spot = await Spot.findByPk(spotId);
+    
+    if (!spot) {
+        return res.status(404).json({
+            message: "Spot coulnd't be found",
+            statusCode: 404,
+        });
+    }
+
+    if (spot.ownerId === userId) {
+        const ownedBookings = await Booking.findAll({
+            where : {
+                spotId
+            },
+            include: [
+                { model: User, attributes: ['id', 'firstName', 'lastName'] }
+            ]
+        })
+        return res.json(ownedBookings)
+    } else {
+        const notOwnedBookings = await Booking.findAll({
+            where : {
+                spotId
+            }
+        })
+        return res.json(notOwnedBookings)
+    }
+
+})
+
 
 //get all reviews by spot id
 router.get('/:spotId/reviews', async (req, res) => {
@@ -303,19 +338,16 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         })
     }
 
-    if (user.id === spot.ownerId) {
-        return res.status(403).json({
-            message: "Forbidden",
-            statusCode: 403
-        })
-    }
-
     const overlappingDates = await Booking.findAll({
         where: {
             spotId: id,
             [Op.or]: [
                 { startDate: {[Op.between]: [startDate, endDate] }},
-                { endDate: {[Op.between]: [startDate, endDate] }}
+                { endDate: {[Op.between]: [startDate, endDate] }},
+                { [Op.and]: {
+                    startDate: {[Op.lt]: startDate},
+                    endDate: { [Op.gt]: startDate}
+                  }}
             ]
         },
     });
@@ -352,40 +384,4 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
-//get all bookings from spot id
-router.get('/:spotId/bookings', requireAuth, async (req, res) => {
-    const spotId = req.params.spotId;
-    const userId = req.user.id;
-
-    const spot = await Spot.findByPk(spotId);
-    if (!spot) {
-        return res.status(404).json({
-            message: "Spot coulnd't be found",
-            statusCode: 404,
-        });
-    }
-    const bookings = await Booking.findAll({
-        where : {
-            spotId: spotId
-        },
-        include: [
-            { model: User, attributes: ["id", "firstName", "lastName"] },
-        ]
-    });
-    
-    const nonOwnerBookings = await Booking.findAll({
-        where : {
-            spotId: spotId
-        }
-    })
-
-    if (userId === spot.ownerId) {
-    return res.json(bookings)
-    } else {
-        if (userId !== spot.ownerId) {
-            return res.json(nonOwnerBookings)
-        }
-    }
-
-})
 module.exports = router;

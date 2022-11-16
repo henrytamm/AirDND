@@ -17,37 +17,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     const userId = req.user.id;
     const currentDate = new Date();
     const { startDate, endDate } = req.body;
-
-    const booking = await Booking.findOne({
-        where: {
-            id
-        },
-        include: [
-            { model: Spot, attributes: ['ownerId'] }
-        ]
-    });
-
-    const overlappingDates = await Booking.findOne({
-        where: {
-            spotId : booking.spotId,
-            [Op.or]: [
-                { startDate: {[Op.between]: [startDate, endDate] }},
-                { endDate: {[Op.between]: [startDate, endDate] }}
-            ]
-        },
-    });
-
-    if (overlappingDates){
-            return res.status(403).json({
-                "message": "Sorry, this spot is already booked for the specified dates",
-                "statusCode": 403,
-                "errors": {
-                    "startDate": "Start date conflicts with an existing booking",
-                    "endDate": "End date conflicts with an existing booking"
-                }
-            })
-        }
-            
+    const booking = await Booking.findByPk(id)
 
     if(!booking){
         return res.status(404).json({
@@ -70,6 +40,27 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         return res.status(403).json({
             message: "Past bookings can't be modified",
             statusCode: 403
+        })
+    }
+
+    const overlappingDates = await Booking.findOne({
+        where : {
+            spotId: booking.spotId,
+            [Op.or] : [
+                { startDate: {[Op.between]: [startDate, endDate] }},
+                { endDate: {[Op.between]: [startDate, endDate] }}
+            ]
+        }
+    })
+
+    if (overlappingDates) {
+        return res.status(404).json({
+            message: "Sorry, this spot is already booked for the specific dates",
+            statusCode: 403,
+            errors : {
+                "startDate": "Start date conflicts with an existing booking",
+                "endDate": "End date conflicts with an existing booking"
+            }
         })
    
     } else {
