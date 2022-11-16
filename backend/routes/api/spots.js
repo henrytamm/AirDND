@@ -125,7 +125,7 @@ router.get('/:spotId', async (req, res) => {
                 ]
             ],
         },
-        group: ['Reviews.review', 'Reviews.star', 'Spot.id', 'Owner.id', 'SpotImages.id'],
+        group: ['Reviews.review', 'Reviews.stars', 'Spot.id', 'Owner.id', 'SpotImages.id'],
         include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview']},
             { model: Review, attributes: []},
