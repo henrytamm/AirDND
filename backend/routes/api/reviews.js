@@ -84,16 +84,16 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
         })
     };
 
-    if(doomedReview.userId === userId) {
-        return res.json({
-            message: "Successfully deleted",
-            statusCode: 200,
-        })
-    } else {
+    if (doomedReview.userId !== userId) {
         return res.status(403).json({
             message: "Forbidden",
             statusCode: 403
-        })
+        });
     }
+    doomedReview.destroy();
+    return res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+    })
 })
 module.exports = router;

@@ -125,6 +125,7 @@ router.get('/:spotId', async (req, res) => {
                 ]
             ],
         },
+        group: ['Reviews.review', 'Reviews.star', 'Spot.id', 'Owner.id', 'SpotImages.id'],
         include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview']},
             { model: Review, attributes: []},
@@ -167,7 +168,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
     return res.json(newSpot)
 })
 
-//add an image to a spot based on spotid (imageableId and imageableType? had to change postman because i don't have a previewImage?)
+//add an image to a spot based on spotid
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
