@@ -99,10 +99,11 @@ router.get('/current', requireAuth, async (req, res) => {
                     [sequelize.col('SpotImages.url'), 'previewImage']
             ]
         },
+        group: ['Spot.id', 'SpotImages.url'],
         include: [
             { model: SpotImage, attributes: []},
             { model: Review, attributes: []}
-        ]
+        ],
     });
     
     return res.json(currentSpot)
