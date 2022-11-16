@@ -35,11 +35,9 @@ const validateLogin = [
         return next(err);
       }
   
-      await setTokenCookie(res, user);
+      user.dataValues.token = await setTokenCookie(res, user)
   
-      return res.json({
-        user
-      });
+      return res.json(user);
     }
   );
 
@@ -53,18 +51,17 @@ const validateLogin = [
   );
   
 
-  //get current user(aa code)
-  router.get(
-    '/',
-    restoreUser,
-    (req, res) => {
-      const { user } = req;
-      if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
-      } else return res.json({});
-    }
-  );
+//get current user
+  // router.get('/', restoreUser, async (req, res) => {
+  //   const { user } = req;
+
+  //   user.dataValues.token = await setTokenCookie(res, user)
+
+  //   if(user) {
+  //     return res.json(user.dataValues)
+  //   } else {
+  //     return res.json({})
+  //   }
+  // })
 
   module.exports = router;
