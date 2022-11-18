@@ -47,7 +47,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
         url: req.body.url
     });
     const { id, url } = newImage
-    return res.json({ id, url })
+    return res.json({id, url, reviewId})
 })
 
 //edit review

@@ -171,6 +171,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 //add an image to a spot based on spotid
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
+    const { previewimage } = req.body;
     const spot = await Spot.findByPk(spotId);
 
     if (!spot) {
@@ -183,10 +184,11 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     const newImage = await SpotImage.create({
         spotId,
         url: req.body.url,
-        preview: req.body.preview
+        preview: previewimage
     });
+    
     const { id, url, preview } = newImage
-    return res.json({id, url, preview})
+    return res.json({ id, url, preview })
 })
 
 
