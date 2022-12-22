@@ -1,5 +1,11 @@
 'use strict';
 
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -12,30 +18,33 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Spots', [{
-    ownerId: 1,
-    address: "150 Telegraph Ave",
-    city: "Berkeley",
-    state: "California",
-    country: "United States",
-    lat: 37.7645358,
-    lng: -122.7645358,
-    name: "Airbnb Rent Spot 1",
-    description: "absolutely terrible place to stay at but it's cheap",
-    price: 333
+   options.tableName = "Spots"
+   return queryInterface.bulkInsert(options, [
+    {
+     ownerId: 1,
+     address: "150 Telegraph Ave",
+     city: "Berkeley",
+     state: "California",
+     country: "United States",
+     lat: 37.7645358,
+     lng: -122.7645358,
+     name: "Airbnb Rent Spot 1",
+     description: "absolutely terrible place to stay at but it's cheap",
+     price: 333
+    },
+   {
+     ownerId: 2,
+     address: "1842 Jamestown Rd",
+     city: "San Francisco",
+     state: "California",
+     country: "United States",
+     lat: 83.7645358,
+     lng: -293.7645358,
+     name: "Airbnb Rent Spot 2",
+     description: "amazing, fantastic, absolutely fake review",
+     price: 999
    },
-  {
-    ownerId: 2,
-    address: "1842 Jamestown Rd",
-    city: "San Francisco",
-    state: "California",
-    country: "United States",
-    lat: 83.7645358,
-    lng: -293.7645358,
-    name: "Airbnb Rent Spot 2",
-    description: "amazing, fantastic, absolutely fake review",
-    price: 999
-  }], {})
+  ]);  
   },
 
   async down (queryInterface, Sequelize) {
@@ -45,5 +54,9 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = "Spots"
+    return queryInterface.bulkDelete(options, {
+      
+    })
   }
 };
