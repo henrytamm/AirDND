@@ -52,16 +52,16 @@ const validateLogin = [
   
 
 //get current user
-  // router.get('/', restoreUser, async (req, res) => {
-  //   const { user } = req;
+  router.get('/', restoreUser, async (req, res) => {
+    const { user } = req;
 
-  //   user.dataValues.token = await setTokenCookie(res, user)
+    user.dataValues.token = await setTokenCookie(res, user)
 
-  //   if(user) {
-  //     return res.json(user.dataValues)
-  //   } else {
-  //     return res.json({})
-  //   }
-  // })
+    if(user) {
+      return res.json(user.dataValues)
+    } else {
+      return res.json({})
+    }
+  })
 
   module.exports = router;
