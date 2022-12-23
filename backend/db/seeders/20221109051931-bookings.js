@@ -42,7 +42,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     options.tableName = "Bookings"
-    return queryInterface.bulkDelete(options, [{
+    return queryInterface.bulkDelete(options, null, [{
       
     }])
   }

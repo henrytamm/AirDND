@@ -40,7 +40,7 @@ module.exports = {
      */
     options.tableName = "SpotImages";
     return queryInterface.bulkDelete(
-      options, {
+      options, null, {
         
       }
     )
