@@ -394,4 +394,37 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
+//get all spots
+
+router.get('/', async (req, res) => {
+    let { page, size } = req.query;
+    page = parseInt(page);
+    size = parseInt(size);
+    if (!page) page = 1;
+    if (!size) size = 10;
+    let limit;
+    let offset;
+
+    if (page === 0) {
+        page = null;
+        size = null;
+    } else if (page > 10) {
+        page = 10;
+    } else if (size > 20) {
+        size = 20
+    } else {
+        limit = size;
+        offset = size * (page - 1)
+    }
+
+    let spots = await Spot.findAll({
+    });
+
+    return res.json({
+        spots,
+        page: page,
+        size: size
+    })
+})
+
 module.exports = router;
