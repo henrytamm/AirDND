@@ -63,7 +63,7 @@ const CreateSpotForm = () => {
     <section>
         <form onSubmit={handleSubmit}>
             <input
-            type='test'
+            type='text'
             placeholder='Address'
             value={address}
             onChange={updateAddress}/>
