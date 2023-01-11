@@ -8,7 +8,7 @@ import { editReview } from '../../store/reviews';
 
 const EditReviewForm = () => {
  const { reviewId } = useParams();
- const { spotId } = useParams();
+//  const { spotId } = useParams();
  const history = useHistory();
  const dispatch = useDispatch();
 
@@ -29,8 +29,9 @@ const handleSubmit = async (e) => {
         review,
         stars,
     }
-    await dispatch(editReview(editReviewPayload));
-    history.push(`/spots/${spotId}`)
+    let newReview;
+    newReview = await dispatch(editReview(editReviewPayload));
+    history.push(`/spots/${newReview.spotId}`)
 }
     
 return (

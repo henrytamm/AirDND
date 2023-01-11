@@ -25,7 +25,7 @@ const ReviewList = () => {
     <div>
         {spotReview.map((review) => (
             <div>
-              <h2>{review.User.firstName}</h2>
+              <h2>{review?.User?.firstName}</h2>
                 <div>{review.review}</div>
                 <div>{review.stars}</div>
                </div>
