@@ -43,7 +43,7 @@ export const getAllSpots = () => async (dispatch) => {
     return response;
 };
 
-export const getSingleSpot = (spotId) => async (dispatch) => {
+export const getOneSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
 
   if (response.ok) {

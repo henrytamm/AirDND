@@ -4,6 +4,8 @@ import { useHistory, useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { deleteASpot, getAllSpots } from '../../../store/spots'
 import EditSpotForm from '../EditSpotFormPage/EditSpotForm'
+import SpotReviews from '../SpotReviews/SpotReviews'
+import CreateReviewForm from '../../Reviews/CreateReviewForm'
 
 const SpotCard = () => {
     const {spotId} = useParams();
@@ -11,6 +13,9 @@ const SpotCard = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const spot = useSelector((state) => state.spots[spotId])
+    const [reviews, setReviews] = useState([])
+    const everySpot = useSelector((state) => state.spots)
+    const thisSpot = everySpot[spotId]
 
     useEffect(() => {
         dispatch(getAllSpots())
@@ -45,6 +50,13 @@ const SpotCard = () => {
                 </div>
                 <div className="delete_container">
                 {currentUser && currentUser.id === spot?.ownerId && <button onClick={deleteSpotHandler}>Delete Spot</button>}
+                </div>
+
+
+                <div>
+                    <h1>User Reviews</h1>
+                    <SpotReviews spot={thisSpot} reviews={reviews} setReviews={setReviews} />
+                    <CreateReviewForm spot={thisSpot} reviews={reviews} setReviews={setReviews} />
                 </div>
             </div>
         </div>
