@@ -28,7 +28,7 @@ const CreateReviewForm = ({ spot }) => {
 
         try {
             newReview = await dispatch(createReview(payload, spot.id))
-            dispatch(getOneSpot(spot.id))
+            // dispatch(getOneSpot(spot.id))
             history.push(`/spots/${spot.id}`)
         } catch (res) {
             const data = await res.json();
