@@ -5,12 +5,10 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import SpotPage from "./components/SpotPage"
-import CreateSpotForm from "./components/CreateSpotForm";
-import EditSpotForm from "./components/EditSpotFormPage";
-import SpotInfo from "./components/SpotInfo"
-import ReviewForm from "./components/ReviewFormPage";
-import EditReviewForm from "./components/EditReviewFormPage";
+import SpotList from "./components/Spots/SpotList/SpotList";
+import SpotCard from "./components/Spots/SpotCard/SpotCard";
+import CreateSpotForm from "./components/Spots/CreateSpotForm/CreateSpotForm";
+import EditSpotForm from "./components/Spots/EditSpotFormPage/EditSpotForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,8 +22,8 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-           <Route exact path="/">
-            <SpotPage />
+          <Route exact path="/">
+            <SpotList />
           </Route>
           <Route path="/login">
             <LoginFormPage />
@@ -36,17 +34,11 @@ function App() {
           <Route path="/new">
             <CreateSpotForm />
           </Route>
-          <Route path="/spots/:spotId">
-            <SpotInfo />
+          <Route exact path="/spots/:spotId">
+            <SpotCard />
           </Route>
-          <Route path="/user/edit/:spotId">
+          <Route exact path="/spots/edit/:spotId">
             <EditSpotForm />
-          </Route>
-          <Route exact path="/reviews/:spotId">
-            <ReviewForm />
-          </Route>
-          <Route path="/reviews/:reviewId/edit">
-            <EditReviewForm />
           </Route>
         </Switch>
       )}
