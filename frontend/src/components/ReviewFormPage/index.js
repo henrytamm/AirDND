@@ -1,125 +1,75 @@
-import { useParams, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { createNewReview, allReviews } from "../../store/reviews";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { createNewReview} from "../../store/reviews";
+import { useParams } from "react-router-dom";
 
 
-// const ReviewForm = () => {
-//     const { spotId } = useParams();
-//     const history = useHistory();
-//     const dispatch = useDispatch();
-//     const sessionUser = useSelector((state) => state.session.user);
+export default function ReviewForm() {
+    const [review, setReview] = useState("");
+    const [stars, setStars] = useState(0);
+    const [errors, setErrors] = useState([]);
 
 
-//     const [review, setReview] = useState('')
-//     const [stars, setStars] = useState(0)
-//     const [errors, setErrors] = useState([])
-    
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         setErrors([])
-//         let newReview = {
-//             spotId,
-//             review,
-//             stars
-//         }
-//         await dispatch(createNewReview(newReview))
-//         history.push(`/spots/${spotId}`)
-//         .catch(async (res) => {
-//             const data = await res.json();
-//             if (data && data.errors) setErrors(data.errors)
-//             // else if (sessionUser.review) {
-//             //     setErrors(["User already has a review of this spot."])
-//             // }
-//         })
-//     }
-
-//     return (
-//         <section>
-//             <form onSubmit={handleSubmit}>
-//                 <ul>
-
-//                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-//                 </ul>
-//                 <textarea
-//                 type='text'
-//                 placeholder='Review'
-//                 value={review}
-//                 onChange={(e) => setReview(e.target.value)}
-//                 required={true}/>
-//                 <input
-//                 type='number'
-//                 placeholder='Stars'
-//                 value={stars}
-//                 min="1"
-//                 max="5"
-//                 onChange={(e) => setStars(e.target.value)}/>
-
-//                 <button type="submit">Create new Review</button>
-//             </form>
-//         </section>
-//     )
-// }
-
-// export default ReviewForm
-
-
-
-const ReviewForm = () => {
     const { spotId } = useParams();
-    const history = useHistory();
     const dispatch = useDispatch();
-    // const sessionUser = useSelector((state) => state.session.user);
+    const history = useHistory();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    let payload = {
+      spotId,
+      review,
+      stars,
+    };
 
-    const [review, setReview] = useState('')
-    const [stars, setStars] = useState(0)
-    const [errors, setErrors] = useState([])
-    
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrors([])
-        let newReview = {
-            spotId,
-            review,
-            stars
-        }
-        await dispatch(createNewReview(newReview))
-        dispatch(allReviews(spotId))
-        history.push(`/spots/${spotId}`)
-        .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) setErrors(data.errors)
-        })
+    try {
+      await dispatch(createNewReview(payload));
+      history.push(`/spots/${spotId}`);
+    } catch (res) {
+      const data = await res.json();
+      const err = [data.message];
+      if (data && data.message) setErrors(err);
     }
+};
 
-    return (
-        <section>
-            <form onSubmit={handleSubmit}>
-                <ul>
+return (
+    <div>
+        <form onSubmit={handleSubmit}>
+          <h2>Create Review</h2>
+          {errors && (
+            <ul>
+              {errors.map((error, idx) => (
+                <li className="errors" key={idx}>
+                  {error}
+                </li>
+              ))}
+            </ul>
+          )}
+          <label>
+            Review
+            <textarea
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              required={true}
+            />
+          </label>
+          <label>
+            Stars
+            <input
+              type="number"
+              value={stars}
+              onChange={(e) => setStars(e.target.value)}
+              max="5"
+              min="1"
+              required={true}
+            />
+          </label>
 
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <textarea
-                type='text'
-                placeholder='Review'
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                required={true}/>
-                <input
-                type='number'
-                placeholder='Stars'
-                value={stars}
-                min="1"
-                max="5"
-                onChange={(e) => setStars(e.target.value)}/>
+          <input type="submit" />
+        </form>
+    </div>
+  );
 
-                <button type="submit">Create new Review</button>
-            </form>
-        </section>
-    )
-}
-
-export default ReviewForm
+};

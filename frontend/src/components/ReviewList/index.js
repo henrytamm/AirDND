@@ -1,62 +1,37 @@
-
-import { useEffect } from 'react'
-import { allReviews } from '../../store/reviews'
-import { useParams } from "react-router-dom"
-import { useDispatch, useSelector} from 'react-redux'
-
-// const ReviewList = () => {
-//     const dispatch = useDispatch();
-//     const { spotId } = useParams();
-//     const [isLoaded, setIsLoaded] = useState(false)
-
-//     const review = useSelector(state => (state.reviews))
-//     const reviewObj = Object.values(review)
-//     console.log(reviewObj)
-
-    
-//     useEffect(() => {
-//         dispatch(allReviews(spotId)).then(() => setIsLoaded(true));
-//     }, [dispatch])
-
-//     return (
-//         <div>
-//             <>Review List</>
-//           {
-//             reviewObj.map(review => {
-//                 return <div>{review.review}</div>
-//             })
-//           }
-//         </div>
-//     )
-// }
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { allReviews } from "../../store/reviews";
+import { useParams } from "react-router-dom";
 
 
 const ReviewList = () => {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector(state => state.spots[spotId])
-    const reviews = useSelector(state => Object.values(state.reviews))
-    const spotReviews = reviews.filter((review) => {
+    const reviews = useSelector(state => Object.values(state.reviews));
+
+    const spotReview = reviews.filter((review) => {
         if(review.spotId === spot.id){
             return review
         }
     })
 
-    useEffect(() => {
-        dispatch(allReviews(spotId))
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(allReviews(spotId));
 
-        return (
-        <div>
-            <>Review List</>
-          {
-            spotReviews.map(review => {
-                return <div>{review.review}</div>
-            })
-          }
-        </div>
-    )
+  }, [dispatch]);
+
+  return (
+    <div>
+        {spotReview.map((review) => (
+            <div>
+              <h2>{review.User.firstName}</h2>
+                <div>{review.review}</div>
+                <div>{review.stars}</div>
+               </div>
+        ))}
+      </div>
+  );
 }
-
 
 export default ReviewList

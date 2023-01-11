@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 //actions
 const GET_SPOTS = 'spots/getSpots';
+const GET_ONE_SPOT = 'spots/getOneSpot'
 const ADD_SPOT = 'spots/addSpot'
 const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
@@ -12,6 +13,11 @@ const getSpots = (spots) => {
         spots
     };
 };
+
+const getOneSpot = (spot) => ({
+    type: GET_ONE_SPOT,
+    spot
+})
 
 const addSpot = (payload) => ({
     type: ADD_SPOT,
@@ -37,6 +43,16 @@ export const allSpots = () => async (dispatch) => {
     dispatch(getSpots(data.spots));
     return response;
 };
+
+export const getOneSpotById = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`)
+
+    if (res.ok) {
+        const data = await res.json()
+        dispatch(getOneSpot(data))
+        return res
+    }
+}
 
 export const createSpot = (spot) => async (dispatch) => {
     const { address, city, state, country, lat, lng, name, description, price, previewImage } = spot;
@@ -98,6 +114,10 @@ const spotsReducer = (state = initialState, action) => {
                 newState[spot.id] = spot;
             })
             return newState;
+        }
+
+        case GET_ONE_SPOT: {
+            newState[action.spot.id] = action.spot
         }
 
         case ADD_SPOT: {
