@@ -27,7 +27,6 @@ const SpotInfo = () => {
 
     const sessionUser = useSelector(state => state.session.user);
     // const isOwner = sessionUser.id === review.userId
-    // console.log(sessionUser)
 
     return (
       <div>
