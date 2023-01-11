@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { deleteASpot, getAllSpots } from '../../../store/spots'
 import EditSpotForm from '../EditSpotFormPage/EditSpotForm'
 import SpotReviews from '../SpotReviews/SpotReviews'
-import CreateReviewForm from '../../Reviews/CreateReviewForm'
+import CreateReviewForm from '../../Reviews/CreateReviewFormPage/CreateReviewForm'
 
 const SpotCard = () => {
     const {spotId} = useParams();
