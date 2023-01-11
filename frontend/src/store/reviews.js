@@ -33,7 +33,7 @@ export const getReviewsForSpot = (spotId) => async (dispatch) => {
       const data = await response.json();
       dispatch(getAllReviewsAction(...data, {...spotId}));
       console.log(data,'reviews')
-      return {...data}
+      return {data}
     }
 }
 

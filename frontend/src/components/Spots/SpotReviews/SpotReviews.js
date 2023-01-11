@@ -10,8 +10,8 @@ const SpotReviews = ({ spot }) => {
   const thisReview = allReviews.filter((review)=> review.spotId === spot.id)
   console.log(thisReview, 'reviews')
   useEffect(() => {
-    dispatch(getReviewsForSpot(spot?.id));
-  }, [spot?.id, dispatch]);
+    if (spot && spot.id) dispatch(getReviewsForSpot(spot?.id));
+  }, [dispatch]);
 
   return (
     <div className="reviews_container">
