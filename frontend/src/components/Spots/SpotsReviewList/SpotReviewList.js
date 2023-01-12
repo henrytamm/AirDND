@@ -3,6 +3,7 @@ import { getOneSpot } from "../../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import "./SpotReviewList.css"
 
 const SpotReviewList = ({ spot, review }) => {
   const history = useHistory();
@@ -24,25 +25,29 @@ const SpotReviewList = ({ spot, review }) => {
   }, [dispatch]);
 
   const deleteReviewHandler = async (e, id) => {
-    e.preventDefault();
-    dispatch(deleteReview(id));
-    dispatch(getOneSpot(spot.id));
+    const deleteConfirm = window.confirm(`Are you sure you want to delete your review?`)
+    if (deleteConfirm) {
+      e.preventDefault();
+      dispatch(deleteReview(id));
+      dispatch(getOneSpot(spot.id));
+  
+      history.push(`/spots/${spot.id}`);
 
-    history.push(`/spots/${spot.id}`);
+    }
   };
 
-  const editReviewHandler = () => {
-    history.push(`/spots/${review.spotId}/reviews/edit/${review.id}`)
-  }
+  // const editReviewHandler = () => {
+  //   history.push(`/spots/${review.spotId}/reviews/edit/${review.id}`)
+  // }
 
   return (
     <div className="review-container">
       {thisReview.map(({ review, stars, spotId, userId, id }) => (
         <span className="review-list" key={review}>
-          <div className="userid-rev"> User ID: {userId} </div>
+          <div className="userid-review">User ID: {userId} </div>
 
-          <div className="review-rev"> Review: {review}</div>
-          <div className="star-rev">Stars:{stars}</div>
+          <div className="review-review">Review: {review}</div>
+          <div className="star-review">Stars:{stars}</div>
           {/* <div className="spotid-rev"> Spot Number:{spotId}</div>
           <div className="id-rev">ID Number:{id}</div> */}
 
