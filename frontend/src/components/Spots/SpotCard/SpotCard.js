@@ -7,8 +7,7 @@ import EditSpotForm from "../EditSpotFormPage/EditSpotForm";
 import SpotReviews from "../SpotReviews/SpotReviews";
 import CreateReviewForm from "../../Reviews/CreateReviewFormPage/CreateReviewForm";
 import SpotReviewList from "../SpotsReviewList/SpotReviewList";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faStar } from "@fortawecome/free-solid-svg-icons";
+import "./SpotCard.css";
 
 const SpotCard = () => {
   const { spotId } = useParams();
@@ -20,11 +19,11 @@ const SpotCard = () => {
   const everySpot = useSelector((state) => state.spots);
   const thisSpot = everySpot[spotId];
 
-  const spotReviews = useSelector(state => Object.values(state.reviews))
-  console.log(spotReviews)
+  const spotReviews = useSelector((state) => Object.values(state.reviews));
+  console.log(spotReviews);
 
-  const [avgRating, setAvgRating] = useState('0')
-//   console.log(thisSpot)
+  const [avgRating, setAvgRating] = useState("0");
+  //   console.log(thisSpot)
 
   useEffect(() => {
     dispatch(getAllSpots());
@@ -47,36 +46,33 @@ const SpotCard = () => {
   let stars = 0;
   let totalReviews = 0;
   let averageRating = 0;
-  spotReviews.forEach(review => {
+  spotReviews.forEach((review) => {
     stars += review.stars;
-    totalReviews += 1
-  })
-  if (stars){
-    averageRating = (stars / totalReviews).toFixed(2)
+    totalReviews += 1;
+  });
+  if (stars) {
+    averageRating = (stars / totalReviews).toFixed(2);
   } else {
-    averageRating = 0
+    averageRating = 0;
   }
-
 
   return (
     <div className="spots-container" key={spot?.id}>
-      <Link to="/">
-        <button>Back</button>
-      </Link>
-      <div className="spot_name">{thisSpot?.name}</div>
-      <div className="city_country">
+      <div className="spot-name">{thisSpot?.name}</div>
+      <div className="city-country">
         {thisSpot?.city}, {thisSpot?.country}
       </div>
       <div className="stars">
+        <i className="fa-solid fa-star"></i>
         {averageRating}
       </div>
+      <div className="middle">
 
-      <div className="center_page">
-        <div className="spot_image">
+        <div className="spot-image">
           <img src={thisSpot?.previewImage}></img>
         </div>
 
-        <div className="details_container">
+        <div className="details-container">
           <h1 className="spot-details"> Spot Details</h1>
 
           <li>Name: {thisSpot?.name}</li>
@@ -90,35 +86,35 @@ const SpotCard = () => {
           <li>Description: {thisSpot?.description}</li>
           <li>Price: ${thisSpot?.price}/night</li>
 
+          <li>Rating: {averageRating}</li>
 
-            <li>Rating: {averageRating}</li>
 
-          <div className="edit-container">
-            {currentUser && currentUser.id === spot?.ownerId && (
-              <button onClick={editSpotHandler}>Edit Spot</button>
-            )}
-          </div>
-          <div className="delete-container">
-            {currentUser && currentUser.id === spot?.ownerId && (
-              <button onClick={deleteSpotHandler}>Delete Spot</button>
-            )}
-          </div>
+          {currentUser && currentUser.id === spot?.ownerId && (
+            <button className="edit-and-delete-button" onClick={editSpotHandler}>
+              Edit Spot
+            </button>
+          )}
+        {currentUser && currentUser.id === spot?.ownerId && (
+            <button className="edit-and-delete-button" onClick={deleteSpotHandler}>
+            Delete Spot
+          </button>
+        )}
+        </div>
+      </div>
 
-          <div className="review-container">
-            <h1 className="review-header">User Reviews</h1>
-            <div className="review-edit-delete">
-              <SpotReviewList
-                spot={thisSpot}
-                reviews={reviews}
-                setReviews={setReviews}
-              />
-              <CreateReviewForm
-                spot={thisSpot}
-                reviews={reviews}
-                setReviews={setReviews}
-              />
-            </div>
-          </div>
+      <div className="review-container">
+        <h1 className="review-header">User Reviews</h1>
+        <div className="review-stuff">
+          <SpotReviewList
+            spot={thisSpot}
+            reviews={reviews}
+            setReviews={setReviews}
+          />
+          <CreateReviewForm
+            spot={thisSpot}
+            reviews={reviews}
+            setReviews={setReviews}
+          />
         </div>
       </div>
     </div>

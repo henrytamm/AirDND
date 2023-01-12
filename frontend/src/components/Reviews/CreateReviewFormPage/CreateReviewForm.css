@@ -1,0 +1,6 @@
+.review{
+    font-weight: bold;
+    display:flex;
+    font-size:30px;
+    justify-content: center;
+}

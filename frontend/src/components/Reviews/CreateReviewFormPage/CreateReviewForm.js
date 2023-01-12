@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getAllSpots, getOneSpot } from '../../../store/spots';
 import { createReview, getReviewsForSpot } from '../../../store/reviews';
-// import './CreateReviewForm.css'
+import './CreateReviewForm.css'
 
 const CreateReviewForm = ({ spot }) => {
     const {spotId } = useParams();
@@ -42,7 +42,7 @@ const CreateReviewForm = ({ spot }) => {
             {
                 sessionUser?.id !== thisSpot?.userId && (sessionUser?.id) &&(
                     <form onSubmit={handleSubmit}>
-                        <h1>Leave Review</h1>
+                        <h1 className="review">Leave a Review</h1>
                         <ul>
                             {errors.map((error, idx) => (
                                 <li className='errors' key={idx}>{error}</li>
@@ -51,14 +51,14 @@ const CreateReviewForm = ({ spot }) => {
 
                         <label>
                             Review
-                            <input
+                            <textarea
                             type='text'
                             value={review}
                             onChange={e => setReviews(e.target.value)}
                             required={true} />
                         </label>
                         <label>
-                            Stars
+                            Rating
                             <input
                             type='number'
                             value={stars}
