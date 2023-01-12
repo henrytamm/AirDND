@@ -27,8 +27,11 @@ const SpotCard = () => {
     }
 
     const deleteSpotHandler = () => {
-        dispatch(deleteASpot(spot.id))
-        history.push(`/`)
+        const deleteConfirm = window.confirm(`Are you sure you want to delete this spot?`)
+        if (deleteConfirm) {
+            dispatch(deleteASpot(spot.id))
+            history.push(`/`)
+        }
     }
 
     return (

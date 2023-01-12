@@ -76,6 +76,13 @@ const CreateSpotForm = () => {
                 </ul>
             <input
             type='text'
+            placeholder='Name'
+            value={name}
+            required={true}
+            onChange={updateName}/>
+                <p className='errors'>{errors.name}</p>
+            <input
+            type='text'
             placeholder='Address'
             value={address}
             required={true}
@@ -116,13 +123,6 @@ const CreateSpotForm = () => {
             required={true}
             onChange={updateLng}/>
                 <p className='errors'>{errors.lng}</p>
-            <input
-            type='text'
-            placeholder='Name'
-            value={name}
-            required={true}
-            onChange={updateName}/>
-                <p className='errors'>{errors.name}</p>
             <input
             type='text'
             placeholder='Description'

@@ -9,7 +9,7 @@ const EditSpotForm = () => {
   const { spotId } = useParams();
   const allSpots = useSelector((state) => state.spots);
   const thisSpot = allSpots[spotId];
-//   console.log(thisSpot)
+  //   console.log(thisSpot)
   const history = useHistory();
 
   const [address, setAddress] = useState(thisSpot?.address);
@@ -54,82 +54,131 @@ const EditSpotForm = () => {
     let editedSpot;
     try {
       editedSpot = await dispatch(editSpot(payload));
-      console.log(editedSpot)
+      // console.log(editedSpot);
       history.push(`/spots/${editedSpot.id}`);
     } catch (response) {
       const data = await response.json();
       setErrors([...Object.values(data.errors)]);
+      console.log(data.errors)
     }
   };
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={updateAddress}
-        />
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={updateCity}
-        />
-        <input
-          type="text"
-          placeholder="Country"
-          value={country}
-          onChange={updateCountry}
-        />
-        <input
-          type="text"
-          placeholder="State"
-          value={state}
-          onChange={updateState}
-        />
-        <input
-          type="number"
-          placeholder="Latitude"
-          value={lat}
-          onChange={updateLat}
-        />
-        <input
-          type="number"
-          placeholder="Longitude"
-          value={lng}
-          onChange={updateLng}
-        />
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={updateName}
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={updateDescription}
-        />
-        <input
-          type="text"
-          placeholder="Price"
-          value={price}
-          onChange={updatePrice}
-        />
-        <input
-          type="text"
-          placeholder="PreviewImage"
-          value={previewImage}
-          onChange={updatePreviewImage}
-        />
+    <div>
+      <form className="edit-form" onSubmit={handleSubmit}>
+        <h1 className="update">Update your spot!</h1>
+        <ul>
+          {errors.map((error, idx) => (
+            <li className="edit-errors" key={idx}>
+              {error}
+            </li>
+          ))}
+        </ul>
 
-        <button type="submit"> Update Spot </button>
+        <label>
+          Name
+          <input
+            type="text"
+            value={name}
+            required
+            onChange={updateName}/>
+            <p className='errors'>{errors.name}</p>
+        </label>
+
+        <label>
+          Address
+          <input
+            type="text"
+            value={address}
+            required
+            onChange={updateAddress}/>
+            <p className='errors'>{errors.address}</p>
+        </label>
+
+        <label>
+          City
+          <input
+            type="text"
+            value={city}
+            required
+            onChange={updateCity}/>
+            <p className='errors'>{errors.city}</p>
+        </label>
+
+        <label>
+          State
+          <input
+            type="text"
+            value={state}
+            required
+            onChange={updateState}/>
+            <p className='errors'>{errors.state}</p>
+        </label>
+
+        <label>
+          Country
+          <input
+            type="text"
+            value={country}
+            required
+            onChange={updateCountry}/>
+            <p className='errors'>{errors.country}</p>
+        </label>
+
+        <label>
+          Latitiude
+          <input
+            type="text"
+            value={lat}
+            required
+            onChange={updateLat}/>
+            <p className='errors'>{errors.lat}</p>
+        </label>
+
+        <label>
+          Longitude
+          <input
+            type="text"
+            value={lng}
+            required
+            onChange={updateLng}/>
+            <p className='errors'>{errors.lng}</p>
+        </label>
+
+        <label>
+          Description
+          <input
+            type="text"
+            value={description}
+            required
+            onChange={updateDescription}/>
+            <p className='errors'>{errors.description}</p>
+        </label>
+
+        <label>
+          Price
+          <input
+            type="text"
+            value={price}
+            required
+            onChange={updatePrice}/>
+            <p className='errors'>{errors.price}</p>
+        </label>
+
+        <label>
+          Images
+          <input
+            type="text"
+            value={previewImage}
+            required
+            onChange={updatePreviewImage}/>
+        </label>
+
+        <button className="submitButton" type="submit">
+          Update Spot
+        </button>
       </form>
-    </section>
+    </div>
   );
 };
-
 export default EditSpotForm;
