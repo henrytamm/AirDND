@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getAllSpots, getOneSpot } from '../../../store/spots';
-import { createReview } from '../../../store/reviews';
+import { createReview, getReviewsForSpot } from '../../../store/reviews';
 // import './CreateReviewForm.css'
 
 const CreateReviewForm = ({ spot }) => {
@@ -28,7 +28,7 @@ const CreateReviewForm = ({ spot }) => {
 
         try {
             newReview = await dispatch(createReview(payload, spot.id))
-            // dispatch(getOneSpot(spot.id))
+            dispatch(getReviewsForSpot(spotId))
             history.push(`/spots/${spot.id}`)
         } catch (res) {
             const data = await res.json();

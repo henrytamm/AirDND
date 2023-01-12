@@ -30,7 +30,8 @@ module.exports = {
      lng: -122.7645358,
      name: "Airbnb Rent Spot 1",
      description: "absolutely terrible place to stay at but it's cheap",
-     price: 333
+     price: 333,
+     previewImage: 'first-image'
     },
    {
      ownerId: 2,
@@ -42,7 +43,8 @@ module.exports = {
      lng: -293.7645358,
      name: "Airbnb Rent Spot 2",
      description: "amazing, fantastic, absolutely fake review",
-     price: 999
+     price: 999,
+     previewImage: 'second-image'
    },
   ]);  
   },

@@ -6,6 +6,7 @@ import { deleteASpot, getAllSpots } from '../../../store/spots'
 import EditSpotForm from '../EditSpotFormPage/EditSpotForm'
 import SpotReviews from '../SpotReviews/SpotReviews'
 import CreateReviewForm from '../../Reviews/CreateReviewFormPage/CreateReviewForm'
+import SpotReviewList from '../SpotsReviewList/SpotReviewList'
 
 const SpotCard = () => {
     const {spotId} = useParams();
@@ -55,7 +56,8 @@ const SpotCard = () => {
 
                 <div>
                     <h1>User Reviews</h1>
-                    <SpotReviews spot={thisSpot} reviews={reviews} setReviews={setReviews} />
+                    <SpotReviewList spot={thisSpot} reviews={reviews} setReviews={setReviews} />
+                    {/* <SpotReviews spot={thisSpot} reviews={reviews} setReviews={setReviews} /> */}
                     <CreateReviewForm spot={thisSpot} reviews={reviews} setReviews={setReviews} />
                 </div>
             </div>

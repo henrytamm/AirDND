@@ -9,6 +9,7 @@ import SpotList from "./components/Spots/SpotList/SpotList";
 import SpotCard from "./components/Spots/SpotCard/SpotCard";
 import CreateSpotForm from "./components/Spots/CreateSpotForm/CreateSpotForm";
 import EditSpotForm from "./components/Spots/EditSpotFormPage/EditSpotForm";
+import EditReviewForm from "./components/Reviews/EditReviewFormPage/EditReviewForm";
 
 function App() {
   const dispatch = useDispatch();

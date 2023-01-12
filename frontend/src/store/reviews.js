@@ -27,13 +27,13 @@ const editReviewAction = (payload) => ({
 
 export const getReviewsForSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
-    console.log('####', spotId)
+    // console.log('####', spotId)
   
     if (response.ok) {
       const data = await response.json();
-      dispatch(getAllReviewsAction(...data, {...spotId}));
-      console.log(data,'reviews')
-      return {data}
+      dispatch(getAllReviewsAction(data));
+    //   console.log(data,'reviews')
+      return data
     }
 }
 
@@ -60,19 +60,41 @@ export const deleteReview = (reviewId) => async(dispatch) => {
     }
 }
 
+export const editReview = (review) => async (dispatch) => {
+    const { id } = review;
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(review)
+    });
+
+    if (response.ok) {
+        const newReview = await response.json();
+        dispatch(editReviewAction(newReview));
+    }
+    return response;
+
+}
+
 const initialState = {};
 
 const reviewsReducer = (state = initialState, action) => {
     let newState = {...state}
     switch(action.type) {
         case GET_ALL_REVIEWS: {
-            action.reviews = [action.reviews]
+            // console.log('action.reviews line', action.reviews)
+            // action.reviews = [action.reviews]
             action.reviews.forEach(review => {
                 newState[review.id] = review
+                // console.log('newstate line', newState)
             })
             return newState
         }
         case CREATE_REVIEW: {
+            newState[action.payload.id] = action.payload;
+            return newState
+        }
+
+        case EDIT_REVIEW: {
             newState[action.payload.id] = action.payload;
             return newState
         }

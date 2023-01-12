@@ -33,7 +33,6 @@ const CreateSpotForm = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        setErrors([])
         
         const payload = {
             address,
@@ -47,12 +46,21 @@ const CreateSpotForm = () => {
             price,
             previewImage,
         }
-        let newSpot;
-        newSpot = await dispatch(createSpot(payload))
-
-        if (newSpot) {
+        try {
+            let newSpot;
+            newSpot = await dispatch(createSpot(payload))
             history.push(`/spots/${newSpot.id}`)
+        } catch (res){
+            setErrors([])
+            const data = await res.json();
+
+            if (data && data.message) setErrors(data.errors)
         }
+        // let newSpot;
+        // newSpot = await dispatch(createSpot(payload))
+
+        // if (newSpot) {
+        //     history.push(`/spots/${newSpot.id}`)
         
     }
 
@@ -60,53 +68,67 @@ const CreateSpotForm = () => {
 
 
    return (
-    <section>
-        <form onSubmit={handleSubmit}>
+    <div className='outer-container'>
+        <div className="create-spot-container"></div>
+            <form className="create-spot-form" onSubmit={handleSubmit}>
+                <h2>Create Spot</h2>
+                <ul>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
             <input
             type='text'
             placeholder='Address'
             value={address}
             onChange={updateAddress}/>
+                <p className='errors'>{errors.address}</p>
             <input
             type='text'
             placeholder='City'
             value={city}
             onChange={updateCity}/>
+                <p className='errors'>{errors.city}</p>
             <input
             type='text'
             placeholder='Country'
             value={country}
             onChange={updateCountry}/>
+                <p className='errors'>{errors.country}</p>
             <input
             type='text'
             placeholder='State'
             value={state}
             onChange={updateState}/>
+                <p className='errors'>{errors.state}</p>
             <input
             type='number'
             placeholder='Latitude'
             value={lat}
             onChange={updateLat}/>
+                <p className='errors'>{errors.lat}</p>
             <input
             type='number'
             placeholder='Longitude'
             value={lng}
             onChange={updateLng}/>
+                <p className='errors'>{errors.lng}</p>
             <input
             type='text'
             placeholder='Name'
             value={name}
             onChange={updateName}/>
+                <p className='errors'>{errors.name}</p>
             <input
             type='text'
             placeholder='Description'
             value={description}
             onChange={updateDescription}/>
+                <p className='errors'>{errors.description}</p>
             <input
             type='text'
             placeholder='Price'
             value={price}
             onChange={updatePrice}/>
+                <p className='errors'>{errors.price}</p>
              <input
             type='text'
             placeholder='PreviewImage'
@@ -115,7 +137,7 @@ const CreateSpotForm = () => {
 
             <button type="submit"> Create New Spot </button>
         </form>
-    </section>
+        </div>
    )
 }
 
