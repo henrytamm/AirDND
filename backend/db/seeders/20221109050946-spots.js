@@ -31,7 +31,7 @@ module.exports = {
      name: "Airbnb Rent Spot 1",
      description: "absolutely terrible place to stay at but it's cheap",
      price: 333,
-     previewImage: 'first-image'
+     previewImage: 'https://chatterbox.typepad.com/.a/6a00d8341c86d053ef0154358da177970c-600wi'
     },
    {
      ownerId: 2,
@@ -44,7 +44,7 @@ module.exports = {
      name: "Airbnb Rent Spot 2",
      description: "amazing, fantastic, absolutely fake review",
      price: 999,
-     previewImage: 'second-image'
+     previewImage: 'https://thumbs.dreamstime.com/b/model-house-sale-176363260.jpg'
    },
   ]);  
   },

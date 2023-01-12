@@ -21,12 +21,12 @@ module.exports = {
    options.tableName = "SpotImages";
    return queryInterface.bulkInsert(options, [{
       spotId: 1,
-      url: 'google.com/house',
+      url: 'https://chatterbox.typepad.com/.a/6a00d8341c86d053ef0154358da177970c-600wi',
       preview: true,
      },
      {
       spotId: 2,
-      url: "google.com/house2",
+      url: "https://thumbs.dreamstime.com/b/model-house-sale-176363260.jpg",
       preview: true
      }], {})
   },

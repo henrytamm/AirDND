@@ -20,7 +20,7 @@ const SpotList = () => {
 
     return(
         <div className='create_button'>
-            <button onClick={createSpotHandler}>Create New Spot</button>
+            <button onClick={createSpotHandler}>Start hosting!</button>
     <div className='spot_container'>
     {allSpots?.map(({id, city, price, previewImage, name})=>
     <li key={id} 
@@ -28,7 +28,7 @@ const SpotList = () => {
     
     <Link to={`/spots/${id}`}>
     
-    {/* <img className='preview_image' src={previewImage}></img> */}
+    <img className='preview_image' src={previewImage}></img>
     <div className='name'>{name}</div> 
     <div className='spot_info'>Spot #{id}: {city} </div>
     <div className='price_info'>${price}/night</div>
