@@ -9,7 +9,7 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
-  if (sessionUser.id) {
+  if (sessionUser?.id) {
     sessionLinks = (
       <>
       <div className='navi'></div>
