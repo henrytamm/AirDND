@@ -1,4 +1,28 @@
-# `AirBnB Clone`
+# `Airbnb Clone`
+
+## Introduction
+This is my take on an Airbnb clone. It has similar functionality in being able to create a spot as well as creating reviews for spots.
+
+## Technology Used
+- Node.js
+- Express
+- Sequelize
+- Sqlite3
+- React
+- Redux
+- Html5
+- Css
+- Git
+- Javascript
+
+## Features
+A user can see other's spots, create their own spots, and are able to edit and delete their spot. There is also functionality for reviews in which a user is able to create reviews, see other's reviews and delete their own review.
+
+## Set up
+1. "npm install" in both the frontend and backend folders
+2. Open two terminals, one for frontend and one for backend.
+3. "npm start" in each terminal
+
 
 ## Database Schema Design
 
