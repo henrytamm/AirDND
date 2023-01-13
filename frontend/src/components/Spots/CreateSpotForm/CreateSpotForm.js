@@ -1,153 +1,153 @@
-import { useEffect, useReducer, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { createSpot } from '../../../store/spots';
-import "./CreateSpotForm.css"
-
+import { useEffect, useReducer, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { createSpot } from "../../../store/spots";
+import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [state, setState] = useState("")
-    const [country, setCountry] = useState()
-    const [lat, setLat] = useState(0)
-    const [lng, setLng] = useState(0)
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [previewImage, setPreviewImage] = useState('')
-    const [errors, setErrors] = useState([]);
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState();
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [errors, setErrors] = useState([]);
 
-    const updateAddress = (e) => setAddress(e.target.value);
-    const updateCity = (e) => setCity(e.target.value);
-    const updateState = (e) => setState(e.target.value);
-    const updateCountry = (e) => setCountry(e.target.value);
-    const updateLat = (e) => setLat(e.target.value);
-    const updateLng = (e) => setLng(e.target.value);
-    const updateName = (e) => setName(e.target.value);
-    const updateDescription = (e) => setDescription(e.target.value);
-    const updatePreviewImage = (e) => setPreviewImage(e.target.value)
-    const updatePrice = (e) => setPrice(e.target.value);
+  const updateAddress = (e) => setAddress(e.target.value);
+  const updateCity = (e) => setCity(e.target.value);
+  const updateState = (e) => setState(e.target.value);
+  const updateCountry = (e) => setCountry(e.target.value);
+  const updateLat = (e) => setLat(e.target.value);
+  const updateLng = (e) => setLng(e.target.value);
+  const updateName = (e) => setName(e.target.value);
+  const updateDescription = (e) => setDescription(e.target.value);
+  const updatePreviewImage = (e) => setPreviewImage(e.target.value);
+  const updatePrice = (e) => setPrice(e.target.value);
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        
-        const payload = {
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price,
-            previewImage,
-        }
-        try {
-            let newSpot;
-            newSpot = await dispatch(createSpot(payload))
-            history.push(`/spots/${newSpot.id}`)
-        } catch (res){
-            const data = await res.json();
-            setErrors([...Object.values(data.errors)])
-            console.log('#####', data.errors)    
-        }
-        // let newSpot;
-        // newSpot = await dispatch(createSpot(payload))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        // if (newSpot) {
-        //     history.push(`/spots/${newSpot.id}`)
-        
+    const payload = {
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+      previewImage,
+    };
+    try {
+      let newSpot;
+      newSpot = await dispatch(createSpot(payload));
+      history.push(`/spots/${newSpot.id}`);
+    } catch (res) {
+      const data = await res.json();
+      setErrors([...Object.values(data.errors)]);
+      console.log("#####", data.errors);
     }
+    // let newSpot;
+    // newSpot = await dispatch(createSpot(payload))
 
+    // if (newSpot) {
+    //     history.push(`/spots/${newSpot.id}`)
+  };
 
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h1 className="create-spot-form"> Become a Host!</h1>
+        <ul>
+          {errors.map((error, idx) => (
+            <li className="errors" key={idx}>
+              {error}
+            </li>
+          ))}
+        </ul>
 
+        <label>
+          Name
+          <input type="text" value={name} required onChange={updateName} />
+        </label>
 
-   return (
-             <div>
-                <form onSubmit={handleSubmit}>
-                    <h1 className='create-spot-form'>Become A Host!</h1>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-            <input
-            type='text'
-            placeholder='Name'
-            value={name}
-            required={true}
-            onChange={updateName}/>
-                <p className='errors'>{errors.name}</p>
-            <input
-            type='text'
-            placeholder='Address'
+        <label>
+          Address
+          <input
+            type="text"
             value={address}
-            required={true}
-            onChange={updateAddress}/>
-                <p className='errors'>{errors.address}</p>
-            <input
-            type='text'
-            placeholder='City'
-            value={city}
-            required={true}
-            onChange={updateCity}/>
-                <p className='errors'>{errors.city}</p>
-            <input
-            type='text'
-            placeholder='State'
-            value={state}
-            required={true}
-            onChange={updateState}/>
-                <p className='errors'>{errors.state}</p>
-            <input
-            type='text'
-            placeholder='Country'
+            required
+            onChange={updateAddress}
+          />
+        </label>
+
+        <label>
+          City
+          <input type="text" value={city} required onChange={updateCity} />
+        </label>
+
+        <label>
+          State
+          <input type="text" value={state} required onChange={updateState} />
+        </label>
+
+        <label>
+          Country
+          <input
+            type="text"
             value={country}
-            required={true}
-            onChange={updateCountry}/>
-                <p className='errors'>{errors.country}</p>
-            <input
-            type='number'
-            placeholder='Latitude'
-            value={lat}
-            required={true}
-            onChange={updateLat}/>
-                <p className='errors'>{errors.lat}</p>
-            <input
-            type='number'
-            placeholder='Longitude'
-            value={lng}
-            required={true}
-            onChange={updateLng}/>
-                <p className='errors'>{errors.lng}</p>
-            <input
-            type='text'
-            placeholder='Description'
+            required
+            onChange={updateCountry}
+          />
+        </label>
+
+        <label>
+          Latitiude
+          <input type="text" value={lat} required onChange={updateLat} />
+        </label>
+
+        <label>
+          Longitude
+          <input type="text" value={lng} required onChange={updateLng} />
+        </label>
+
+        <label>
+          Description
+          <input
+            type="text"
             value={description}
-            required={true}
-            onChange={updateDescription}/>
-                <p className='errors'>{errors.description}</p>
-            <input
-            type='text'
-            placeholder='Price'
-            value={price}
-            required={true}
-            onChange={updatePrice}/>
-                <p className='errors'>{errors.price}</p>
-             <input
-            type='text'
-            placeholder='PreviewImage'
+            required
+            onChange={updateDescription}
+          />
+        </label>
+
+        <label>
+          Price
+          <input type="text" value={price} required onChange={updatePrice} />
+        </label>
+
+        <label>
+          Images
+          <input
+            type="text"
             value={previewImage}
-            required={true}
-            onChange={updatePreviewImage}/>
+            required
+            onChange={updatePreviewImage}
+          />
+        </label>
 
-            <button type="submit"> Create New Spot </button>
-        </form>
+        <button type="submit">Create new Spot</button>
+      </form>
     </div>
-   )
-}
+  );
+};
 
-export default CreateSpotForm
+export default CreateSpotForm;

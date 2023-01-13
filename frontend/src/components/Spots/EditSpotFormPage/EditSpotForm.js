@@ -59,7 +59,7 @@ const EditSpotForm = () => {
     } catch (response) {
       const data = await response.json();
       setErrors([...Object.values(data.errors)]);
-      console.log(data.errors)
+      console.log('####', data.errors)
     }
   };
 
@@ -69,7 +69,7 @@ const EditSpotForm = () => {
         <h1 className="update">Update your spot!</h1>
         <ul>
           {errors.map((error, idx) => (
-            <li className="edit-errors" key={idx}>
+            <li className="errors" key={idx}>
               {error}
             </li>
           ))}

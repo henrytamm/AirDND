@@ -20,7 +20,9 @@ const SpotList = () => {
 //   };
 
   return (
+    <>
       <div className="spot-container">
+        
         {allSpots?.map(({ id, city, price, previewImage, state, name, spot }) => (
           <li key={id} className="spot-card">
             <Link to={`/spots/${id}`}>
@@ -34,6 +36,7 @@ const SpotList = () => {
           </li>
         ))}
       </div>
+      </>
   );
 };
 

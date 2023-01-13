@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import "./Navigation.css"
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={openMenu}>
-        <i class="fa-thin fa-ghost"></i>
+        <i class="fa-solid fa-hippo"></i>
       </button>
       {showMenu && (
         <ul className="profile-dropdown">
@@ -45,7 +46,7 @@ function ProfileButton({ user }) {
             Host your Spot!
             </Link></li>
           <li>
-            <button onClick={logout}>Log Out</button>
+            <button className='log-out' onClick={logout}>Log Out</button>
           </li>
         </ul>
       )}
