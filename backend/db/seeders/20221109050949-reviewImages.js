@@ -21,11 +21,11 @@ module.exports = {
    return queryInterface.bulkInsert(options, [
     {
       reviewId: 1,
-      url: "google.com/images1"
+      url: "https://as2.ftcdn.net/v2/jpg/03/35/34/91/1000_F_335349165_oOkObETuKZhlOKddJRr0uoW7sq84F2gt.jpg"
      },
      {
       reviewId: 2,
-      url: "google.com/images2313"
+      url: "https://paisley-house.com/wp-content/uploads/2021/05/Paisley-House-scaled.jpeg"
      }], {})
     },
 

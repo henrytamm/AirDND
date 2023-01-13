@@ -13,32 +13,41 @@ const router = express.Router();
 const validateSpot = [
     check('address')
     .exists({ checkFalsy: true })
+    .notEmpty()
     .withMessage('Street address is required'),
     check('city')
+    .notEmpty()
     .exists({ checkFalsy: true })
     .withMessage('City is required'),
     check('state')
+    .notEmpty()
     .exists({ checkFalsy: true })
     .withMessage('State is required'),
     check('country')
+    .notEmpty()
     .exists({ checkFalsy: true })
     .withMessage('Country is required'),
     check('lat')
+    .notEmpty()
     .exists({ checkFalsy: true })
     .isNumeric({ checkFalsy: true })
     .withMessage('Latitude is not valid'),
-  check('lng')
+    check('lng')
+    .notEmpty()
     .exists({ checkFalsy: true })
     .isNumeric({ checkFalsy: true })
     .withMessage('Longitude is not valid'),
-  check("name")
+    check("name")
+    .notEmpty()
     .exists({ checkFalsy: true })
     .isLength({ max: 51 })
     .withMessage("Name must be less than 50 characters"),
-  check("description")
+    check("description")
+    .notEmpty()
     .exists({ checkFalsy: true })
     .withMessage("Description is required"),
-  check("price")
+    check("price")
+    .notEmpty()
     .exists({ checkFalsy: true })
     .isInt({ checkFalsy: true })
     .withMessage("Price per day is required"),
@@ -95,7 +104,7 @@ router.get('/current', requireAuth, async (req, res) => {
         },
         attributes : {
             include: [
-                    [sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'],
+                    [sequelize.fn('AVG', sequelize.col('Reviews.stars'))],
                     [sequelize.col('SpotImages.url'), 'previewImage']
             ]
         },
@@ -149,7 +158,7 @@ router.get('/:spotId', async (req, res) => {
 //create a spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
     const { id } = req.user
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body;
 
     const user = await User.findByPk(id)
     const newSpot = await Spot.create({
@@ -162,7 +171,8 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
         lng,
         name,
         description,
-        price
+        price,
+        previewImage
     });
 
     return res.json(newSpot)
@@ -195,7 +205,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 //edit a spot
 router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
     const spotId = req.params.spotId;
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body;
 
     const spot = await Spot.findByPk(spotId, {
 
@@ -208,7 +218,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
         })
     }
 
-    spot.update({ address, city, state, country, lat, lng, name, description, price })
+    spot.update({ address, city, state, country, lat, lng, name, description, price, previewImage })
 
     return res.json(spot)
 });
@@ -392,6 +402,39 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     });
     return res.json(newBooking)
     }
+})
+
+//get all spots
+
+router.get('/', async (req, res) => {
+    let { page, size } = req.query;
+    page = parseInt(page);
+    size = parseInt(size);
+    if (!page) page = 1;
+    if (!size) size = 10;
+    let limit;
+    let offset;
+
+    if (page === 0) {
+        page = null;
+        size = null;
+    } else if (page > 10) {
+        page = 10;
+    } else if (size > 20) {
+        size = 20
+    } else {
+        limit = size;
+        offset = size * (page - 1)
+    }
+
+    let spots = await Spot.findAll({
+    });
+
+    return res.json({
+        spots,
+        page: page,
+        size: size
+    })
 })
 
 module.exports = router;

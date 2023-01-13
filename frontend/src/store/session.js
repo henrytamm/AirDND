@@ -25,13 +25,34 @@ export const login = (user) => async (dispatch) => {
       password,
     }),
   });
+  
   const data = await response.json();
   dispatch(setUser(data));
   return response;
 }
 
+<<<<<<< HEAD
 const initialState = { user: null };
 
+=======
+
+export const demoUser = () => async (dispatch) => {
+  const credential = 'Demo-lition'
+  const password = 'password'
+  const response = await csrfFetch('/api/session', {
+    method: 'POST',
+    body: JSON.stringify({
+      credential,
+      password,
+    }),
+  });
+  
+  const data = await response.json();
+  dispatch(setUser(data));
+  return response;
+
+}
+>>>>>>> dev2
 
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
@@ -64,6 +85,11 @@ export const logout = () => async (dispatch) => {
   dispatch(removeUser());
   return response;
 };
+<<<<<<< HEAD
+=======
+
+const initialState = { user: {} };
+>>>>>>> dev2
 
 const sessionReducer = (state = initialState, action) => {
   let newState;
@@ -74,7 +100,7 @@ const sessionReducer = (state = initialState, action) => {
       return newState;
     case REMOVE_USER:
       newState = Object.assign({}, state);
-      newState.user = null;
+      newState.user = {};
       return newState;
     default:
       return state;
@@ -82,4 +108,8 @@ const sessionReducer = (state = initialState, action) => {
 };
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev2
 export default sessionReducer;

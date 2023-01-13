@@ -22,9 +22,10 @@ const validateLogin = [
   ];
 
 //get current user
-router.get('/', restoreUser, async (req, res) => {
-    const { user } = req;
+// router.get('/', restoreUser, async (req, res) => {
+//     const { user } = req;
 
+<<<<<<< HEAD
     
     if(user) {
         user.dataValues.token = await setTokenCookie(res, user)
@@ -33,39 +34,49 @@ router.get('/', restoreUser, async (req, res) => {
       return res.json(null)
     }
 })
+=======
+//     user.dataValues.token = await setTokenCookie(res, user)
+
+//     if(user) {
+//       return res.json(user.dataValues)
+//     } else {
+//       return res.json({})
+//     }
+// })
+>>>>>>> dev2
 
 
 //get all spots
-router.get('/spots', async (req, res) => {
-    let { page, size } = req.query;
-    page = parseInt(page);
-    size = parseInt(size);
-    if (!page) page = 1;
-    if (!size) size = 10;
-    let limit;
-    let offset;
+// router.get('/spots', async (req, res) => {
+//     let { page, size } = req.query;
+//     page = parseInt(page);
+//     size = parseInt(size);
+//     if (!page) page = 1;
+//     if (!size) size = 10;
+//     let limit;
+//     let offset;
 
-    if (page === 0) {
-        page = null;
-        size = null;
-    } else if (page > 10) {
-        page = 10;
-    } else if (size > 20) {
-        size = 20
-    } else {
-        limit = size;
-        offset = size * (page - 1)
-    }
+//     if (page === 0) {
+//         page = null;
+//         size = null;
+//     } else if (page > 10) {
+//         page = 10;
+//     } else if (size > 20) {
+//         size = 20
+//     } else {
+//         limit = size;
+//         offset = size * (page - 1)
+//     }
 
-    let spots = await Spot.findAll({
-    });
+//     let spots = await Spot.findAll({
+//     });
 
-    return res.json({
-        spots,
-        page: page,
-        size: size
-    })
-})
+//     return res.json({
+//         spots,
+//         page: page,
+//         size: size
+//     })
+// })
 
 
 //get all reviews of the current user

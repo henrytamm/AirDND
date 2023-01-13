@@ -51,17 +51,22 @@ const validateLogin = [
   );
   
 
-//get current user
+//restore user
   router.get('/', restoreUser, async (req, res) => {
     const { user } = req;
 
+<<<<<<< HEAD
     
     if(user) {
       user.dataValues.token = await setTokenCookie(res, user)
       return res.json(user.toSafeObject())
+=======
+    if(user) {
+      user.dataValues.token = await setTokenCookie(res, user)
+      return res.json(user.dataValues)
+>>>>>>> dev2
     } else {
       return res.json(null)
     }
   })
-
   module.exports = router;
