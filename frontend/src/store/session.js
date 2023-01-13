@@ -31,7 +31,6 @@ export const login = (user) => async (dispatch) => {
   return response;
 }
 
-
 export const demoUser = () => async (dispatch) => {
   const credential = 'Demo-lition'
   const password = 'password'
