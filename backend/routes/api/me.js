@@ -25,16 +25,6 @@ const validateLogin = [
 // router.get('/', restoreUser, async (req, res) => {
 //     const { user } = req;
 
-<<<<<<< HEAD
-    
-    if(user) {
-        user.dataValues.token = await setTokenCookie(res, user)
-      return res.json(user.toSafeObject())
-    } else {
-      return res.json(null)
-    }
-})
-=======
 //     user.dataValues.token = await setTokenCookie(res, user)
 
 //     if(user) {
@@ -43,7 +33,6 @@ const validateLogin = [
 //       return res.json({})
 //     }
 // })
->>>>>>> dev2
 
 
 //get all spots

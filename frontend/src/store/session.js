@@ -31,10 +31,6 @@ export const login = (user) => async (dispatch) => {
   return response;
 }
 
-<<<<<<< HEAD
-const initialState = { user: null };
-
-=======
 
 export const demoUser = () => async (dispatch) => {
   const credential = 'Demo-lition'
@@ -52,7 +48,6 @@ export const demoUser = () => async (dispatch) => {
   return response;
 
 }
->>>>>>> dev2
 
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
@@ -85,11 +80,8 @@ export const logout = () => async (dispatch) => {
   dispatch(removeUser());
   return response;
 };
-<<<<<<< HEAD
-=======
 
 const initialState = { user: {} };
->>>>>>> dev2
 
 const sessionReducer = (state = initialState, action) => {
   let newState;
@@ -108,8 +100,4 @@ const sessionReducer = (state = initialState, action) => {
 };
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> dev2
 export default sessionReducer;
