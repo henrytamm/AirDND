@@ -31,6 +31,11 @@ SCHEMA=airbnb_project
 ```
 JWT_SECRET will be a JWT you generate yourself.
 
+4. In the backend directory, you'll need to run the command:
+```npx dotenv sequelize db:migrate && npx dotenv sequelize db:seed:all```
+alternatively, you can use
+```npm run rebuild```
+
 5. "npm start" in each terminal
 
 
