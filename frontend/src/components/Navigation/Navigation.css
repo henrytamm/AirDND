@@ -36,6 +36,28 @@
 }
 
 .log-out:hover{
-cursor:pointer
+    cursor:pointer;
+    color: black;
+    background-color: tomato;
 }
 
+
+.login-button:hover{
+    cursor:pointer;
+    color: black;
+    background-color: tomato;
+}
+
+
+.signup-button:hover{
+    cursor:pointer;
+    color: black;
+    background-color: tomato;
+}
+
+.login-signup-container{
+    display: flex;
+    margin-right: 200px;
+    padding: 3px 3px 3px 10px;
+    color: black
+}
