@@ -19,6 +19,7 @@ const CreateReviewForm = ({ spot }) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+        setErrors([])
         let newReview;
         const payload = {
             spotId,

@@ -24,7 +24,7 @@ function SignupFormPage() {
       return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
         .catch(async (res) => {
           const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
+          if (data && data.errors) setErrors(Object.values(data.errors));
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
@@ -74,7 +74,7 @@ function SignupFormPage() {
       <label>
         First Name
         <input
-          type="password"
+          type="text"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
@@ -83,7 +83,7 @@ function SignupFormPage() {
       <label>
         Last Name
         <input
-          type="password"
+          type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
