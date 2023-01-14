@@ -21,7 +21,17 @@ A user can see other's spots, create their own spots, and are able to edit and d
 ## Set up
 1. "npm install" in both the frontend and backend folders
 2. Open two terminals, one for frontend and one for backend.
-3. "npm start" in each terminal
+3. You'll want to create a .env file in the backend folder with this code block:
+```
+PORT=8000
+DB_FILE=db/dev.db
+JWT_SECRET=*censored*
+JWT_EXPIRES_IN=604800
+SCHEMA=airbnb_project
+```
+JWT_SECRET will be a JWT you generate yourself.
+
+5. "npm start" in each terminal
 
 
 ## Database Schema Design
