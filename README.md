@@ -1,4 +1,4 @@
-# `Airbnb Clone`
+# `Airdnd`
 
 ## Introduction
 This is my take on an Airbnb clone. It has similar functionality in being able to create a spot as well as creating reviews for spots.
