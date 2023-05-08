@@ -41,7 +41,7 @@ const SpotReviewList = ({ spot, review }) => {
       {thisReview.map(({ review, stars, spotId, userId, id }) => (
         <span className="review-list" key={review}>
           <div className="userid-review">
-            {currentUser.firstName} {currentUser.lastName[0].toUpperCase()}.
+            {currentUser?.firstName} {currentUser?.lastName[0].toUpperCase()}.
           </div>
 
           <div className="review-review">{review}</div>
