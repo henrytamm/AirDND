@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { editSpot } from "../../../store/spots";
+import "./EditSpotForm.css";
 
 const EditSpotForm = () => {
   const dispatch = useDispatch();
@@ -64,116 +65,124 @@ const EditSpotForm = () => {
   };
 
   return (
-    <div>
-      <form className="edit-form" onSubmit={handleSubmit}>
+    <div className="edit-form">
+      <form onSubmit={handleSubmit}>
         <h1 className="update">Update your spot!</h1>
-        <ul>
-          {errors.map((error, idx) => (
-            <li className="errors" key={idx}>
-              {error}
-            </li>
-          ))}
-        </ul>
-
-        <label>
-          Name
+        {errors.length > 0 && (
+          <ul className="errors">
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+        )}
+        <div className="form-row">
+          <label htmlFor="name">Name</label>
           <input
             type="text"
+            id="name"
             value={name}
             required
-            onChange={updateName}/>
-            <p className='errors'>{errors.name}</p>
-        </label>
-
-        <label>
-          Address
+            onChange={updateName}
+          />
+          <p className="errors">{errors.name}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="address">Address</label>
           <input
             type="text"
+            id="address"
             value={address}
             required
-            onChange={updateAddress}/>
-            <p className='errors'>{errors.address}</p>
-        </label>
-
-        <label>
-          City
+            onChange={updateAddress}
+          />
+          <p className="errors">{errors.address}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="city">City</label>
           <input
             type="text"
+            id="city"
             value={city}
             required
-            onChange={updateCity}/>
-            <p className='errors'>{errors.city}</p>
-        </label>
-
-        <label>
-          State
+            onChange={updateCity}
+          />
+          <p className="errors">{errors.city}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="state">State</label>
           <input
             type="text"
+            id="state"
             value={state}
             required
-            onChange={updateState}/>
-            <p className='errors'>{errors.state}</p>
-        </label>
-
-        <label>
-          Country
+            onChange={updateState}
+          />
+          <p className="errors">{errors.state}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="country">Country</label>
           <input
             type="text"
+            id="country"
             value={country}
             required
-            onChange={updateCountry}/>
-            <p className='errors'>{errors.country}</p>
-        </label>
-
-        <label>
-          Latitiude
+            onChange={updateCountry}
+          />
+          <p className="errors">{errors.country}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="lat">Latitude</label>
           <input
             type="text"
+            id="lat"
             value={lat}
             required
-            onChange={updateLat}/>
-            <p className='errors'>{errors.lat}</p>
-        </label>
-
-        <label>
-          Longitude
+            onChange={updateLat}
+          />
+          <p className="errors">{errors.lat}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="lng">Longitude</label>
           <input
             type="text"
+            id="lng"
             value={lng}
             required
-            onChange={updateLng}/>
-            <p className='errors'>{errors.lng}</p>
-        </label>
-
-        <label>
-          Description
-          <input
-            type="text"
+            onChange={updateLng}
+          />
+          <p className="errors">{errors.lng}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
             value={description}
             required
-            onChange={updateDescription}/>
-            <p className='errors'>{errors.description}</p>
-        </label>
-
-        <label>
-          Price
+            onChange={updateDescription}
+          />
+          <p className="errors">{errors.description}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="price">Price</label>
           <input
             type="text"
+            id="price"
             value={price}
             required
-            onChange={updatePrice}/>
-            <p className='errors'>{errors.price}</p>
-        </label>
-
-        <label>
-          Images
+            onChange={updatePrice}
+          />
+          <p className="errors">{errors.price}</p>
+        </div>
+        <div className="form-row">
+          <label htmlFor="previewImage">Images</label>
           <input
             type="text"
+            id="previewImage"
             value={previewImage}
             required
-            onChange={updatePreviewImage}/>
-        </label>
-
+            onChange={updatePreviewImage}
+          />
+        </div>
         <button className="submitButton" type="submit">
           Update Spot
         </button>

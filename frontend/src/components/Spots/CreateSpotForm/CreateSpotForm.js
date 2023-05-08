@@ -63,87 +63,115 @@ const CreateSpotForm = () => {
   };
 
   return (
-    <div>
+    <div className="create-spot-form">
       <form onSubmit={handleSubmit}>
-        <h1 className="create-spot-form"> Become a Host!</h1>
-        <ul>
-          {errors.map((error, idx) => (
-            <li className="errors" key={idx}>
-              {error}
-            </li>
-          ))}
-        </ul>
-
-        <label>
-          Name
-          <input type="text" value={name} required onChange={updateName} />
-        </label>
-
-        <label>
-          Address
+        <h1>Become a Host!</h1>
+        {errors.length > 0 && (
+          <ul className="errors">
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+        )}
+        <div className="form-row">
+          <label htmlFor="name">Name</label>
           <input
             type="text"
+            id="name"
+            value={name}
+            required
+            onChange={updateName}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="address">Address</label>
+          <input
+            type="text"
+            id="address"
             value={address}
             required
             onChange={updateAddress}
           />
-        </label>
-
-        <label>
-          City
-          <input type="text" value={city} required onChange={updateCity} />
-        </label>
-
-        <label>
-          State
-          <input type="text" value={state} required onChange={updateState} />
-        </label>
-
-        <label>
-          Country
+        </div>
+        <div className="form-row">
+          <label htmlFor="city">City</label>
           <input
             type="text"
+            id="city"
+            value={city}
+            required
+            onChange={updateCity}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="state">State</label>
+          <input
+            type="text"
+            id="state"
+            value={state}
+            required
+            onChange={updateState}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="country">Country</label>
+          <input
+            type="text"
+            id="country"
             value={country}
             required
             onChange={updateCountry}
           />
-        </label>
-
-        <label>
-          Latitiude
-          <input type="text" value={lat} required onChange={updateLat} />
-        </label>
-
-        <label>
-          Longitude
-          <input type="text" value={lng} required onChange={updateLng} />
-        </label>
-
-        <label>
-          Description
+        </div>
+        <div className="form-row">
+          <label htmlFor="lat">Latitude</label>
           <input
             type="text"
+            id="lat"
+            value={lat}
+            required
+            onChange={updateLat}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="lng">Longitude</label>
+          <input
+            type="text"
+            id="lng"
+            value={lng}
+            required
+            onChange={updateLng}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
             value={description}
             required
             onChange={updateDescription}
           />
-        </label>
-
-        <label>
-          Price
-          <input type="text" value={price} required onChange={updatePrice} />
-        </label>
-
-        <label>
-          Images
+        </div>
+        <div className="form-row">
+          <label htmlFor="price">Price</label>
           <input
             type="text"
+            id="price"
+            value={price}
+            required
+            onChange={updatePrice}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="previewImage">Images</label>
+          <input
+            type="text"
+            id="previewImage"
             value={previewImage}
             required
             onChange={updatePreviewImage}
           />
-        </label>
-
+        </div>
         <button type="submit">Create new Spot</button>
       </form>
     </div>

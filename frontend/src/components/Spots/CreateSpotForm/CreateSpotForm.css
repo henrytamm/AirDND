@@ -1,4 +1,68 @@
-/* .create-spot-form{
+.create-spot-form {
     display: flex;
-    justify-content: center
-} */
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-spot-form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .create-spot-form .form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .create-spot-form label {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .create-spot-form input,
+  .create-spot-form textarea {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .create-spot-form input:focus,
+  .create-spot-form textarea:focus {
+    outline: none;
+    border-color: #00BFFF;
+  }
+  
+  .create-spot-form .errors {
+    margin-bottom: 20px;
+    color: #f44336;
+  }
+  
+  .create-spot-form .errors li {
+    margin-bottom: 5px;
+  }
+  
+  .create-spot-form button[type="submit"] {
+    background-color: #00BFFF;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .create-spot-form button[type="submit"]:hover {
+    background-color: #1E90FF;
+  }
+  
