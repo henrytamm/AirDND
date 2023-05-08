@@ -29,8 +29,13 @@
 }
 
 .delete-review{
-    border: 1px solid lightcoral;
-    border-radius: 30px;
-    color: lightcoral;
-    padding: 5px
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff5a5f;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
 }

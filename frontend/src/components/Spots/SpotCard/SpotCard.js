@@ -72,11 +72,11 @@ const SpotCard = () => {
         </div>
 
         <div className="details-container">
-          <h1 className="spot-details"> Spot Details</h1>
+          <h1 className="spot-details-header"> Spot Details</h1>
 
           <li>Name: {thisSpot?.name}</li>
 
-          <li>ID: {thisSpot?.id}</li>
+          {/* <li>ID: {thisSpot?.id}</li> */}
 
           <li>Address: {thisSpot?.address}</li>
           <li>
@@ -85,14 +85,14 @@ const SpotCard = () => {
           <li>Description: {thisSpot?.description}</li>
           <li>Price: ${thisSpot?.price}/night</li>
 
-          <li>Rating: {averageRating}</li>
+          {/* <li>Rating: {averageRating}</li> */}
 
           {currentUser && currentUser.id === spot?.ownerId && (
             <button
               className="edit-and-delete-button"
               onClick={editSpotHandler}
             >
-              Edit Spot
+              Edit Spot 
             </button>
           )}
           {currentUser && currentUser.id === spot?.ownerId && (
