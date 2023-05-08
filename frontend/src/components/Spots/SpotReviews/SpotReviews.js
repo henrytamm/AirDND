@@ -10,20 +10,6 @@ const SpotReviews = ({ spot, review }) => {
   const currentUser = useSelector((state) => state.session.user);
   const isOwner = currentUser.id === review?.userId
 
-  // const allReviews = useSelector((state) => state.reviews);
-  // const [thisReview, setThisReview] = useState([]);
-  // useEffect(() => {
-  //   const newReviews = Object.values(allReviews).filter(
-  //     (review) => review.spotId === spot.id
-  //   );
-  //   console.log('PLEASEEEEEEE', allReviews)
-  //   setThisReview(newReviews);
-  // }, [spot, allReviews]);
-
-  // useEffect(() => {
-  //   if (spot && spot.id) dispatch(getReviewsForSpot(spot?.id));
-  // }, [dispatch]);
-
   const deleteReviewHandler = async (e, id) => {
     e.preventDefault();
     dispatch(deleteReview(id));
@@ -44,18 +30,5 @@ const SpotReviews = ({ spot, review }) => {
     </div>
   );
 };
-
-//   return (
-//     <div className="reviews_container">
-//       {thisReview.map((review) => (
-//         <div>
-//           <div>User: {review?.User?.firstName}</div>
-//           <div>Review: {review.review}</div>
-//           <div>Stars: {review.stars}</div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
 
 export default SpotReviews;

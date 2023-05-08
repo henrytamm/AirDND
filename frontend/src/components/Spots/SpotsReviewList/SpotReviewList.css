@@ -9,7 +9,8 @@
 .review-list{
     border: 1px solid grey;
     border-radius: 30px;
-    padding: 20px
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
 .userid-review{

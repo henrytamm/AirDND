@@ -48,8 +48,6 @@ const SpotReviewList = ({ spot, review }) => {
 
           <div className="review-review">Review: {review}</div>
           <div className="star-review">Stars:{stars}</div>
-          {/* <div className="spotid-rev"> Spot Number:{spotId}</div>
-          <div className="id-rev">ID Number:{id}</div> */}
 
           {currentUser?.id === userId && (
             <button

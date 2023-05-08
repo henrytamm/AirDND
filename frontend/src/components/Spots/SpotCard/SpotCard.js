@@ -67,7 +67,6 @@ const SpotCard = () => {
         {averageRating}
       </div>
       <div className="middle">
-
         <div className="spot-image">
           <img src={thisSpot?.previewImage}></img>
         </div>
@@ -88,28 +87,35 @@ const SpotCard = () => {
 
           <li>Rating: {averageRating}</li>
 
-
           {currentUser && currentUser.id === spot?.ownerId && (
-            <button className="edit-and-delete-button" onClick={editSpotHandler}>
+            <button
+              className="edit-and-delete-button"
+              onClick={editSpotHandler}
+            >
               Edit Spot
             </button>
           )}
-        {currentUser && currentUser.id === spot?.ownerId && (
-            <button className="edit-and-delete-button" onClick={deleteSpotHandler}>
-            Delete Spot
-          </button>
-        )}
+          {currentUser && currentUser.id === spot?.ownerId && (
+            <button
+              className="edit-and-delete-button"
+              onClick={deleteSpotHandler}
+            >
+              Delete Spot
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="review-container">
-        <h1 className="review-header">User Reviews</h1>
-        <div className="review-stuff">
+      <div className="review-page-container">
+        <div className="spot-review-list-container">
+          <h1 className="spot-reviews">Reviews</h1>
           <SpotReviewList
             spot={thisSpot}
             reviews={reviews}
             setReviews={setReviews}
           />
+        </div>
+        <div className="create-review-form-container">
           <CreateReviewForm
             spot={thisSpot}
             reviews={reviews}

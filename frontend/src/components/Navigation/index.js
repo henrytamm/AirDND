@@ -4,47 +4,74 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import airbnblogo from "../../images/airbnblogo.png"
+import airdnd from "../../images/airdnd.png";
 
-function Navigation({ isLoaded }){
+function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
+  
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = () => {
+      setShowMenu(false);
+    };
+
+    document.addEventListener('click', closeMenu);
+  
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
 
   let sessionLinks;
+
   if (sessionUser?.id) {
     sessionLinks = (
       <>
-      <a href="https://github.com/henrytamm/AirBnB-Mod4-Project">My Github</a>
-      <ProfileButton user={sessionUser} />
+        <ProfileButton user={sessionUser} />
       </>
     );
   } else {
     sessionLinks = (
-      <div className='login-signup-container'>
-
-      <button className='login-button'>
-        <NavLink to="/login">Log In</NavLink>
-      </button>
-      <button className='signup-button'>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </button>
-      <button>
-
-      <a href="https://github.com/henrytamm/AirBnB-Mod4-Project">My Github</a>
-      </button>
-      </div>
+      <>
+        <button className="menu-button" onClick={openMenu}>
+        <i class="fa-solid fa-bars"></i>
+        </button>
+        {showMenu && (
+         <div className="profile-dropdown">
+         <NavLink to="/login" style={{ textDecoration: "none" }}>
+           <button className="login-button">Log In</button>
+         </NavLink>
+         <NavLink to="/signup" style={{ textDecoration: "none" }}>
+           <button className="signup-button">Sign Up</button>
+         </NavLink>
+         <a href="https://github.com/henrytamm/AirBnB-Mod4-Project">
+           <button className="create-spot-button">
+             <i className="fa-brands fa-github"></i>
+             GitHub Repo
+           </button>
+         </a>
+       </div>
+       
+        )}
+      </>
     );
   }
 
   return (
     <>
-    <div className='logo-container'>
-      <NavLink exact to="/">
-      <img className='logo' src={airbnblogo}></img>
-      </NavLink>
-    </div>
-    <ul>
+      <div className="logo-container">
+        <NavLink exact to="/">
+          <img className="logo" src={airdnd} style={{ width: "250px" }} alt="AirDnD Logo" />
+        </NavLink>
+      </div>
+      <ul>
         {isLoaded && sessionLinks}
-    </ul>
+      </ul>
     </>
   );
 }

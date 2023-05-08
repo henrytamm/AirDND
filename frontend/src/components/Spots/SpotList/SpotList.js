@@ -25,7 +25,7 @@ const SpotList = () => {
         
         {allSpots?.map(({ id, city, price, previewImage, state, name, spot }) => (
           <li key={id} className="spot-card">
-            <Link to={`/spots/${id}`}>
+            <Link to={`/spots/${id}`} style={{ textDecoration: 'none' }}>
               <img className="preview-image" src={previewImage} alt={name}></img>
               <div className="name">{name}</div>
               <div className="spot">

@@ -86,7 +86,20 @@ img{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.review-stuff{
-    font-size: 20px;
-}
+.review-page-container {
+    display: flex;
+  }
+  
+  .create-review-form-container,
+  .spot-review-list-container {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+  }
 
+
+.spot-reviews{
+    display: flex;
+    justify-content: center;
+}
+  

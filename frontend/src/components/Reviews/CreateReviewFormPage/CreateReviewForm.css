@@ -1,6 +1,76 @@
-.review{
-    font-weight: bold;
-    display:flex;
-    font-size:30px;
-    justify-content: center;
+/* .review-header{
+    margin-left: 20px;
 }
+
+.review-stars{
+    margin-left: 20px;
+}
+
+.review-review-box{
+    margin-left: 10px;
+}
+
+.review-submit-btn{
+    margin-left: 20px;
+} */
+
+.review-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .errors {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .review-stars {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .review-stars i {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    margin-right: 5px;
+  }
+  
+  .review-stars i.active,
+  .review-stars i:hover {
+    color: #f7d03c;
+  }
+  
+  .review-review-box {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .review-review-box textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .review-submit-btn {
+    background-color: #f7d03c;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .review-submit-btn:hover {
+    background-color: #ffc107;
+  }
+  

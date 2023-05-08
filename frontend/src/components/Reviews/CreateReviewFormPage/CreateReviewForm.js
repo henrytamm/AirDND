@@ -38,19 +38,78 @@ const CreateReviewForm = ({ spot }) => {
         }
     }
 
+    const [starOne, setStarOne] = useState('fa-regular fa-star');
+    const [starTwo, setStarTwo] = useState('fa-regular fa-star');
+    const [starThree, setStarThree] = useState('fa-regular fa-star');
+    const [starFour, setStarFour] = useState('fa-regular fa-star');
+    const [starFive, setStarFive] = useState('fa-regular fa-star');
+
+    const handleStarOne = () => {
+        setStarOne('fa-solid fa-star');
+        setStarTwo('fa-regular fa-star');
+        setStarThree('fa-regular fa-star');
+        setStarFour('fa-regular fa-star');
+        setStarFive('fa-regular fa-star');
+        setStars(1);
+    }
+
+    const handleStarTwo = () => {
+        setStarOne('fa-solid fa-star');
+        setStarTwo('fa-solid fa-star');
+        setStarThree('fa-regular fa-star');
+        setStarFour('fa-regular fa-star');
+        setStarFive('fa-regular fa-star');
+        setStars(2);
+    }
+
+    const handleStarThree = () => {
+        setStarOne('fa-solid fa-star');
+        setStarTwo('fa-solid fa-star');
+        setStarThree('fa-solid fa-star');
+        setStarFour('fa-regular fa-star');
+        setStarFive('fa-regular fa-star');
+        setStars(3);
+    }
+
+    const handleStarFour = () => {
+        setStarOne('fa-solid fa-star');
+        setStarTwo('fa-solid fa-star');
+        setStarThree('fa-solid fa-star');
+        setStarFour('fa-solid fa-star');
+        setStarFive('fa-regular fa-star');
+        setStars(4);
+    }
+
+    const handleStarFive = () => {
+        setStarOne('fa-solid fa-star');
+        setStarTwo('fa-solid fa-star');
+        setStarThree('fa-solid fa-star');
+        setStarFour('fa-solid fa-star');
+        setStarFive('fa-solid fa-star');
+        setStars(5);
+    }
+
     return(
         <div>
             {
                 sessionUser?.id !== thisSpot?.userId && (sessionUser?.id) &&(
                     <form onSubmit={handleSubmit}>
-                        <h1 className="review">Leave a Review</h1>
+                        <h1 className="review-header">Leave a Review</h1>
                         <ul>
                             {errors.map((error, idx) => (
                                 <li className='errors' key={idx}>{error}</li>
                             ))}
                         </ul>
+                    <div className='review-stars'>
+                    <i title="Terrible" onClick={handleStarOne} className={starOne}></i>
+                    <i title="Not That Good"onClick={handleStarTwo} className={starTwo}></i>
+                    <i title="Alright"onClick={handleStarThree} className={starThree}></i>
+                    <i title="Great"onClick={handleStarFour} className={starFour}></i>
+                    <i title="Perfect"onClick={handleStarFive} className={starFive}></i>
+                    </div>
+                    <p></p>
 
-                        <label>
+                        <label className='review-review-box'>
                             Review
                             <textarea
                             type='text'
@@ -58,18 +117,8 @@ const CreateReviewForm = ({ spot }) => {
                             onChange={e => setReviews(e.target.value)}
                             required={true} />
                         </label>
-                        <label>
-                            Rating
-                            <input
-                            type='number'
-                            value={stars}
-                            required={true}
-                            min="1"
-                            max="5"
-                            onChange={e => setStars(e.target.value)} />
-                        </label>
 
-                        <button type="submit">Submit</button>
+                        <button type="submit" className='review-submit-btn'>Submit</button>
                     </form>
                 )
             }

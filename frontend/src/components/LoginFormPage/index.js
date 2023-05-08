@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import './LoginForm.css';
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -32,35 +33,36 @@ function LoginFormPage() {
   }
 
   return (
-    <div>
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-      <label>
-        Username or Email
-        <input
-          type="text"
-          value={credential}
-          onChange={(e) => setCredential(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Log In</button>
-    </form>
-    <form  onSubmit={demoLogin}>
-
-    <button>Demo</button>
-    </form>
+    <div className="form-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <ul className="errors-list">
+          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        </ul>
+        <label className="input-label">
+          Username or Email
+          <input
+            className="input-field"
+            type="text"
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
+            required
+          />
+        </label>
+        <label className="input-label">
+          Password
+          <input
+            className="input-field"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <button className="submit-button" type="submit">Log In</button>
+      </form>
+      <form className="demo-form" onSubmit={demoLogin}>
+        <button className="demo-button">Demo</button>
+      </form>
     </div>
   );
 }

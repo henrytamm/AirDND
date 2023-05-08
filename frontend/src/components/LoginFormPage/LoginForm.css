@@ -1,0 +1,45 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .login-form, .demo-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+    border-radius: 5px;
+  }
+  
+  .input-label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .input-field {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 90%;
+    margin-top: 5px;
+  }
+  
+  .submit-button, .demo-button {
+    background-color: tomato;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
