@@ -53,7 +53,7 @@ const CreateSpotForm = () => {
     } catch (res) {
       const data = await res.json();
       setErrors([...Object.values(data.errors)]);
-      console.log("#####", data.errors);
+      // console.log("#####", data.errors);
     }
     // let newSpot;
     // newSpot = await dispatch(createSpot(payload))

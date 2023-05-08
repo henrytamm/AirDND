@@ -20,7 +20,7 @@ const SpotCard = () => {
   const thisSpot = everySpot[spotId];
 
   const spotReviews = useSelector((state) => Object.values(state.reviews));
-  console.log(spotReviews);
+  // console.log(spotReviews);
 
   const [avgRating, setAvgRating] = useState("0");
   //   console.log(thisSpot)

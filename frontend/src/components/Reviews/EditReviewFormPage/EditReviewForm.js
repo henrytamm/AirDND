@@ -9,7 +9,7 @@ const EditReviewForm = () => {
   const history = useHistory();
 
   const editedReview = useSelector((state) => state);
-  console.log(editedReview);
+  // console.log(editedReview);
   const sessionUser = useSelector(state => state.session.user)
 
   const [review, setReview] = useState(editedReview?.review);

@@ -59,7 +59,7 @@ const EditSpotForm = () => {
     } catch (response) {
       const data = await response.json();
       setErrors([...Object.values(data.errors)]);
-      console.log('####', data.errors)
+      // console.log('####', data.errors)
     }
   };
 
