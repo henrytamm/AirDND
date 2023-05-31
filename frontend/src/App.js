@@ -42,7 +42,6 @@ function App() {
             <EditSpotForm />
           </Route>
         </Switch>
-        
       )}
     </>
   );
