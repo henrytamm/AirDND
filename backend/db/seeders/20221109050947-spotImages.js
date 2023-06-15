@@ -21,12 +21,12 @@ module.exports = {
    options.tableName = "SpotImages";
    return queryInterface.bulkInsert(options, [{
       spotId: 1,
-      url: 'https://chatterbox.typepad.com/.a/6a00d8341c86d053ef0154358da177970c-600wi',
+      url: 'https://www.mydomaine.com/thmb/qfc13qpHnxMkqp8Ja-XwYjC1JQ8=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/SuCasaDesign-Modern-9335be77ca0446c7883c5cf8d974e47c.jpg',
       preview: true,
      },
      {
       spotId: 2,
-      url: "https://thumbs.dreamstime.com/b/model-house-sale-176363260.jpg",
+      url: "https://www.mydomaine.com/thmb/nyzFcv5BeMO125ZWs4xpo3FRbek=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/costanera-1024x610-a747d459be304b8caa70e7f2653348e4.jpg",
       preview: true
      }], {})
   },
