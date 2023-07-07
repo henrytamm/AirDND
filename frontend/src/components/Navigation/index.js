@@ -14,6 +14,7 @@ function Navigation({ isLoaded }) {
     if (showMenu) return;
     setShowMenu(true);
   };
+
   
   useEffect(() => {
     if (!showMenu) return;
